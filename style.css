@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+}
+
+#sceneContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 5rem 0rem 5rem;
+    border: 0.5rem solid #934705;
+    border-radius: 1rem;
+}
+
+#sceneContainer img {
+    width: 100%;
+    max-height: 90vh;
+}
+
+@media (max-width: 800px) {
+    #sceneContainer {
+        margin: 2rem 1rem 0rem 1rem;
+    }
+}
