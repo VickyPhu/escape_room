@@ -9,6 +9,7 @@ body {
 }
 
 #sceneContainer {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,8 +23,45 @@ body {
     max-height: 90vh;
 }
 
+/* Game name title */
+.h1 {
+    position: absolute;
+    color: #fff;
+    font-size: 56px;
+    padding-bottom: 10rem;
+}
+
+/* Start button at the start scene */
+.startButton {
+    position: absolute;
+    padding: 1rem 5rem;
+    border-radius: 2rem;
+    background-color: transparent;
+    color: #fff;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: rgb(255, 132, 0);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.startButton:hover {
+    background-color: transparent;
+}
+
+/* For smaller screens phone and tablet */
 @media (max-width: 800px) {
     #sceneContainer {
         margin: 2rem 1rem 0rem 1rem;
+    }
+    .h1 {
+        padding-bottom: 7rem;
+        font-size: 36px;
+    }
+    .startButton {
+        padding: 0.5rem 3rem;
+        border-radius: 2rem;
+        font-size: 18px;
     }
 }
