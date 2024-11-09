@@ -50,8 +50,37 @@ body {
     background-color: transparent;
 }
 
+.premise_text {
+    position: absolute;
+    color: #fff;
+    width: 80%;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.next_button {
+    position: absolute;
+    margin-top: 17rem;
+    left: 90%;
+    transform: translateX(-10%);
+    padding: 0.5rem 2em;
+    border-radius: 2rem;
+    color: #fff;
+    background-color: rgb(255, 132, 0);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.next_button:hover {
+    background-color: transparent;
+}
+
+.fa-solid.fa-arrow-right {
+    font-size: 25px;
+}
+
 /* For smaller screens phone and tablet */
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     #sceneContainer {
         margin: 2rem 1rem 0rem 1rem;
     }
@@ -63,5 +92,15 @@ body {
         padding: 0.5rem 3rem;
         border-radius: 2rem;
         font-size: 18px;
+    }
+    .premise_text {
+        padding: 5rem 0rem 5rem 0rem;
+        font-size: 16px;
+    }
+    .next_button {
+        padding: 0.5rem 0.7rem;
+    }
+    .fa-solid.fa-arrow-right {
+        font-size: 20px;
     }
 }
