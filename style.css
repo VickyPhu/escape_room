@@ -16,11 +16,14 @@ body {
     margin: 2rem 5rem 0rem 5rem;
     border: 0.5rem solid #934705;
     border-radius: 1rem;
+    overflow: hidden;
 }
 
-#sceneContainer img {
+/* Background image for each scene */
+.background_image {
     width: 100%;
     max-height: 90vh;
+    z-index: 1;
 }
 
 /* Game name title */
@@ -29,6 +32,7 @@ body {
     color: #fff;
     font-size: 56px;
     padding-bottom: 10rem;
+    z-index: 2;
 }
 
 /* Start button at the start scene */
@@ -44,6 +48,7 @@ body {
     background-color: rgb(255, 132, 0);
     cursor: pointer;
     transition: 0.5s;
+    z-index: 2;
 }
 
 .startButton:hover {
@@ -56,6 +61,7 @@ body {
     width: 80%;
     font-size: 20px;
     line-height: 1.2;
+    z-index: 2;
 }
 
 .next_button {
@@ -69,6 +75,7 @@ body {
     background-color: rgb(255, 132, 0);
     cursor: pointer;
     transition: 0.5s;
+    z-index: 2;
 }
 
 .next_button:hover {
@@ -79,8 +86,120 @@ body {
     font-size: 25px;
 }
 
+/* Buttons on the left side of the screen */ 
+.left_button {
+    position: absolute;
+    width: 15rem;
+    height: 3.5rem;
+    left: 3rem;
+    bottom: 2rem;
+    padding: 0.7rem 2em;
+    border-radius: 2rem;
+    color: #fff;
+    background-color: rgb(255, 132, 0);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.5s;
+    z-index: 4;
+}
+
+.left_button:hover {
+    background-color: transparent;
+}
+
+/* Buttons on the right side of the screen */ 
+.right_button {
+    position: absolute;
+    width: 15rem;
+    height: 3.5rem;
+    right: 3rem;
+    bottom: 2rem;
+    padding: 0.7rem 2rem;
+    border-radius: 2rem;
+    color: #fff;
+    background-color: rgb(255, 132, 0);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.5s;
+    z-index: 5;
+}
+
+.right_button:hover {
+    background-color: transparent;
+}
+
+.entrance_hall_note {
+    position: absolute;
+    max-width: 3rem;
+    height: auto;
+    bottom: 60%;
+    right: 36%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.note_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.large_note {
+    position: relative;
+    max-width: 90%;
+    height: auto;
+}
+
+.note_text {
+    position: absolute;
+    top: 25%;
+    left: 33%;
+    right: 33%;
+    color: #000;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.2;
+    z-index: 11;
+}
+
+.close_button {
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+}
+
+.close_button:hover {
+    background-color: #a54e10;
+}
+
 /* For smaller screens phone and tablet */
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
+    .entrance_hall_note {
+        max-width: 2rem;
+    }
+    .note_text {
+        top: 20%;
+        left: 20%;
+        right: 20%;
+    }
+}
+
+@media (max-width: 700px) {
     #sceneContainer {
         margin: 2rem 1rem 0rem 1rem;
     }
@@ -102,5 +221,37 @@ body {
     }
     .fa-solid.fa-arrow-right {
         font-size: 20px;
+    }
+    .left_button {
+        width: 10rem;
+        height: 2.5rem;
+        left: 1rem;
+        bottom: 1rem;
+        font-size: 14px;
+        padding: 0.5rem 1em;
+    }
+    .right_button {
+        width: 10rem;
+        height: 2.5rem;
+        right: 1rem;
+        bottom: 1rem;
+        font-size: 14px;
+        padding: 0.5rem 1em;
+    }
+    .entrance_hall_note {
+        max-width: 1.3rem;
+    }
+    .note_text {
+        top: 15%;
+        left: 15%;
+        right: 15%;
+    }
+}
+
+@media (max-width: 551px) {
+    .note_text {
+        top: 12%;
+        left: 10%;
+        right: 10%;
     }
 }
