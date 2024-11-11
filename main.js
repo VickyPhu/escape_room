@@ -1,14 +1,82 @@
 window.addEventListener('DOMContentLoaded', main);
 
+let inventoryBox;
+
 function main() {
     loadStartScene();
+    createInventoryBox();
 }
+/** Creates an inventory box next to the sceneContainer */
+function createInventoryBox() {
+    const displayInventoryBox = document.getElementById('displayInventoryBox');
+  }
+
+/** Stores the inventory items - notes and keys */
+const inventory = [];
+
+/** Adds collectible items to the end of the inventory in the array and runs updateInventoryDisplay() */
+function addItemToInventory(item) {
+    inventory.push(item);
+    updateInventoryDisplay();
+}
+
+/** Updates the DOM for the inventory when a collectible item gets added, clickable note to read the text */
+function updateInventoryDisplay() {
+    const displayInventoryBox = document.getElementById('displayInventoryBox');
+    displayInventoryBox.innerHTML = '';
+
+    inventory.forEach(item => {
+        const inventoryItem = document.createElement('div');
+        inventoryItem.classList.add('inventory_item')
+
+        if (item.type === 'note') {
+            const inventoryNote = document.createElement('img');
+            inventoryNote.src = item.src;
+            inventoryNote.classList.add('inventory_note');
+
+            inventoryNote.onclick = () => {
+                const noteOverlay = document.createElement('div');
+                noteOverlay.classList.add('note_overlay');
+
+                const largeNote = document.createElement('img');
+                largeNote.src = item.src;
+                largeNote.classList.add('large_note');
+
+                const noteContent = document.createElement('p');
+                noteContent.classList.add('note_text');
+                noteContent.innerHTML = item.text;
+
+                const closeButton = document.createElement('button');
+                closeButton.classList.add('close_button');
+                closeButton.innerHTML = '<i class="fa-solid fa-x"></i>';
+                closeButton.onclick = () => {
+                    noteOverlay.remove();
+                };
+
+                noteOverlay.append(largeNote, noteContent, closeButton);
+                sceneContainer.append(noteOverlay);
+            };
+
+            displayInventoryBox.append(inventoryNote);
+        
+        }
+            displayInventoryBox.append(inventoryItem);
+        });
+};
+
+function useKey(item) {
+    const index = inventory.indexOf(item);
+    if (index !== -1) {
+        inventory.splice(index, 1);
+        updateInventoryDisplay();
+    }
+}
+
 /** Creates the small note and the larger note for viewing and closing */
-function createNote(noteSrc, noteText, position) {
+function createNote(noteSrc, noteText, position, isCollectible = false) {
     const note = document.createElement('img');
     note.src = noteSrc;
     note.classList.add('small_note');
-
     //Position
     Object.assign(note.style, position);
     note.style.position = 'absolute';
@@ -34,11 +102,31 @@ function createNote(noteSrc, noteText, position) {
 
     noteOverlay.append(largeNote, noteContent, closeButton);
 
+    // some notes will be saved to inventory, only add if it's collectible
     note.addEventListener('click', () => {
         noteOverlay.style.display = 'flex';
+
+        if (isCollectible) {
+            addItemToInventory({
+                 type: 'note', 
+                 src: noteSrc, 
+                 text: noteText});
+            note.remove();
+        }
     });
 
     sceneContainer.append(note, noteOverlay);
+
+    if (isCollectible) {
+        const inventoryNote = document.createElement('img');
+        inventoryNote.src = noteSrc;
+        inventoryNote.classList.add('inventory_note');
+        inventoryNote.onclick = () => {
+            noteOverlay.style.display = 'flex';
+        }
+
+        return inventoryNote;
+    }
 }
 /** Creates the start / first scene to start playing */
 function loadStartScene() {
@@ -118,11 +206,11 @@ function loadLibraryScene() {
 
     sceneContainer.append(libraryScene, leftButton, rightButton);
 
-    const note = createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' });
+    createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }
+    );
 
-    const saveNote = createNote('images/note.webp', 'I can’t shake the feeling I’m here for a reason. She’s always watching, always hiding, waiting for me to <strong>find</strong> her secrets.', {bottom: '58%', left: '15%'});
-
-    sceneContainer.append(note, saveNote);
+    createNote('images/note.webp', 'I can’t shake the feeling I’m here for a reason. She’s always watching, always hiding, waiting for me to <strong>find</strong> her secrets.', {bottom: '58%', left: '15%'}, true
+    );
 }
 
 function loadDiningRoomScene() {
