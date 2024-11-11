@@ -265,6 +265,18 @@ function loadStaircaseLandingScene() {
 
 }
 
+/** Creates kitchen scene(4) with two notes, one collectible */
 function loadKitchenScene() {
+    sceneContainer.innerHTML = '';
+    const kitchenScene = document.createElement('img');
+    kitchenScene.src = 'images/kitchen.webp';
+    kitchenScene.classList.add('background_image');
 
+    sceneContainer.append(kitchenScene);
+
+    createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }
+    );
+
+    createNote('images/note.webp', 'There’s no warmth here, just a hollow shell. I wish she’d just let me <strong>rest</strong>.', {bottom: '44%', left: '17%'}, true
+    );
 }
