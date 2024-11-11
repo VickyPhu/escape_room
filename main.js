@@ -1,6 +1,9 @@
 window.addEventListener('DOMContentLoaded', main);
 
+//Global variables
 let inventoryBox;
+/** Stores the inventory items - notes and keys */
+const inventory = [];
 
 function main() {
     loadStartScene();
@@ -10,9 +13,6 @@ function main() {
 function createInventoryBox() {
     const displayInventoryBox = document.getElementById('displayInventoryBox');
   }
-
-/** Stores the inventory items - notes and keys */
-const inventory = [];
 
 /** Adds collectible items to the end of the inventory in the array and runs updateInventoryDisplay() */
 function addItemToInventory(item) {
@@ -55,12 +55,16 @@ function updateInventoryDisplay() {
 
                 noteOverlay.append(largeNote, noteContent, closeButton);
                 sceneContainer.append(noteOverlay);
-            };
+            }
+                displayInventoryBox.append(inventoryNote);
 
-            displayInventoryBox.append(inventoryNote);
-        
-        }
-            displayInventoryBox.append(inventoryItem);
+            } else if (item.type === 'key') {
+                const inventoryKey = document.createElement('img');
+                inventoryKey.src = item.src;
+                inventoryKey.classList.add('inventory_key');
+                displayInventoryBox.append(inventoryKey);
+            }
+                displayInventoryBox.append(inventoryItem);
         });
 };
 
@@ -128,6 +132,24 @@ function createNote(noteSrc, noteText, position, isCollectible = false) {
         return inventoryNote;
     }
 }
+
+/** Creates a key that gets added to inventory on click and removed from scene */
+function createKey(keySrc, position) {
+    const key = document.createElement('img');
+    key.src = 'images/gold_key.webp';
+    key.classList.add('gold_key');
+
+    Object.assign(key.style, position);
+    key.style.position = 'absolute';
+    //The key gets added to the inventory on click
+    key.onclick = () => {
+        addItemToInventory({ type: 'key', src: keySrc });
+        key.remove();
+    };
+
+    sceneContainer.append(key);
+}
+
 /** Creates the start / first scene to start playing */
 function loadStartScene() {
     const startScene = document.createElement('img');
@@ -213,10 +235,36 @@ function loadLibraryScene() {
     );
 }
 
+/** Creates the Dining room scene(3) with function createNote and createKey */
 function loadDiningRoomScene() {
+    sceneContainer.innerHTML = '';
+    const diningRoomScene = document.createElement('img');
+    diningRoomScene.src = 'images/dining_room.webp';
+    diningRoomScene.classList.add('background_image');
 
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Entrance hall';
+    leftButton.onclick = loadEntranceHall;
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Kitchen';
+    rightButton.onclick = loadKitchenScene;
+    rightButton.classList.add('right_button');
+
+    sceneContainer.append(diningRoomScene, leftButton, rightButton);
+
+    createNote('images/note.webp', 'At the last ball, they all marveled at my beauty. None of them know what I’ve done, what I’ve given up to maintain this facade. They wouldn’t admire me if they knew the cost. Still, appearances must be kept, and the ritual must continue.', {top: '10%', right: '30%' }
+    );
+
+    createKey('images/gold_key.webp', { bottom: '35%', left: '23%'}
+    );
 }
 
 function loadStaircaseLandingScene() {
+
+}
+
+function loadKitchenScene() {
 
 }

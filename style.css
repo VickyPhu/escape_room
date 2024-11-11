@@ -58,6 +58,10 @@ main {
     cursor: pointer;
 }
 
+.inventory_key {
+    width: 80%;
+}
+
 /* Game name title */
 .h1 {
     position: absolute;
@@ -167,7 +171,6 @@ main {
 
 /* Note on the scene before it's been cliked */
 .small_note {
-    position: absolute;
     width: 3%;
     cursor: pointer;
     z-index: 2;
@@ -220,11 +223,10 @@ main {
     background-color: #a54e10;
 }
 
-.save_note {
-    position: absolute;
-    top: 50%;
-    left: 30%;
-    right: 30%;
+.gold_key {
+    width: 5%;
+    cursor: pointer;
+    z-index: 2;
 }
 
 /* For smaller screens phone and tablet */
@@ -233,6 +235,9 @@ main {
         top: 25%;
         left: 20%;
         right: 20%;
+    }
+    .gold_key {
+        width: 7%;
     }
 }
 
@@ -287,6 +292,9 @@ main {
     #displayInventoryBox {
         margin-right: 1rem;
         width: 15%;
+    }
+    .gold_key {
+        width: 10%;
     }
 }
 
