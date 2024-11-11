@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', main);
 function main() {
     loadStartScene();
 }
-
+/** Creates the small note and the larger note for viewing and closing */
 function createNote(noteSrc, noteText, position) {
     const note = document.createElement('img');
     note.src = noteSrc;
@@ -40,7 +40,7 @@ function createNote(noteSrc, noteText, position) {
 
     sceneContainer.append(note, noteOverlay);
 }
-
+/** Creates the start / first scene to start playing */
 function loadStartScene() {
     const startScene = document.createElement('img');
     startScene.src ="images/haunted_house.webp";
@@ -57,7 +57,7 @@ function loadStartScene() {
 
     sceneContainer.append(startScene, gameName, button);
 }
-
+/** Created the premise scene / intro to the game */
 function loadPremiseScene() {
     sceneContainer.innerHTML = '';
     const premiseScene = document.createElement('img');
@@ -75,7 +75,7 @@ function loadPremiseScene() {
 
     sceneContainer.append(premiseScene, premiseText, button);
 }
-
+/** Creates the Entrance hall scene(1), also using the function createNote */
 function loadEntranceHall() {
     sceneContainer.innerHTML = '';
     const entranceHall = document.createElement('img');
