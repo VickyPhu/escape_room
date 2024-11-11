@@ -4,6 +4,43 @@ function main() {
     loadStartScene();
 }
 
+function createNote(noteSrc, noteText, position) {
+    const note = document.createElement('img');
+    note.src = noteSrc;
+    note.classList.add('small_note');
+
+    //Position
+    Object.assign(note.style, position);
+    note.style.position = 'absolute';
+
+    const noteOverlay = document.createElement('div');
+    noteOverlay.classList.add('note_overlay');
+    noteOverlay.style.display = 'none';
+
+    const largeNote = document.createElement('img');
+    largeNote.src = noteSrc;
+    largeNote.classList.add('large_note');
+
+    const noteContent = document.createElement('p');
+    noteContent.classList.add('note_text');
+    noteContent.innerHTML = noteText;
+
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '<i class="fa-solid fa-x"></i>';
+    closeButton.classList.add('close_button');
+    closeButton.onclick = () => { 
+        noteOverlay.style.display = 'none';
+    };
+
+    noteOverlay.append(largeNote, noteContent, closeButton);
+
+    note.addEventListener('click', () => {
+        noteOverlay.style.display = 'flex';
+    });
+
+    sceneContainer.append(note, noteOverlay);
+}
+
 function loadStartScene() {
     const startScene = document.createElement('img');
     startScene.src ="images/haunted_house.webp";
@@ -55,46 +92,43 @@ function loadEntranceHall() {
     rightButton.onclick = loadDiningRoomScene;
     rightButton.classList.add('right_button');
 
-    const entranceHallNote = document.createElement('img');
-    entranceHallNote.src = 'images/note.webp';
-    entranceHallNote.classList.add('entrance_hall_note');
+    createNote(
+        'images/note.webp', 'To whoever enters after me, I was foolish enough to believe I could find a way out…but the doors only open when the truth of Eleanor’s story is uncovered. <br><br>Look closely at what you find—each note has a purpose. There are whispers of a code to escape, something left behind by the ones who vanished before me. <br><br>Remember this: Eleanor’s ‘favorite four’ may hold the key. I’ve gathered that letters and fragments combine for freedom. But I must hurry… I hear footsteps, though no one should be here.', { top: '30%', left: '60%' }
+    );
 
-    sceneContainer.append(entranceHall, leftButton, rightButton, entranceHallNote);
+    sceneContainer.append(entranceHall, leftButton, rightButton);
 
-    //View the text on the note and close it
-    const noteOverlay = document.createElement('div');
-    noteOverlay.classList.add('note_overlay');
-    //hide the note at first
-    noteOverlay.style.display = 'none'
-
-    const largeNote = document.createElement('img');
-    largeNote.src = 'images/note.webp';
-    largeNote.classList.add('large_note');
-
-    const noteText = document.createElement('p');
-    noteText.classList.add('note_text');
-    noteText.innerHTML = 'To whoever enters after me, I was foolish enough to believe I could find a way out…but the doors only open when the truth of Eleanor’s story is uncovered. <br><br>Look closely at what you find—each note has a purpose. There are whispers of a code to escape, something left behind by the ones who vanished before me. <br><br>Remember this: Eleanor’s ‘favorite four’ may hold the key. I’ve gathered that letters and fragments combine for freedom. But I must hurry… I hear footsteps, though no one should be here.'
-
-    //close button for the note
-    const closeButton = document.createElement('button');
-    closeButton.innerHTML = '<i class="fa-solid fa-x"></i>';
-    closeButton.classList.add('close_button');
-    closeButton.onclick = () => {
-        noteOverlay.style.display = 'none';
-    };
-    
-    noteOverlay.append(largeNote, noteText, closeButton);
-    sceneContainer.appendChild(noteOverlay);
-
-    entranceHallNote.addEventListener('click', () => {
-        noteOverlay.style.display = 'flex';
-    });
 }
 
 function loadLibraryScene() {
+    sceneContainer.innerHTML = '';
+    const libraryScene = document.createElement('img');
+    libraryScene.src = 'images/library.webp'
+    libraryScene.classList.add('background_image');
 
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Entrance hall';
+    leftButton.onclick = loadEntranceHall;
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Staircase landing';
+    rightButton.onclick = loadStaircaseLandingScene;
+    rightButton.classList.add('right_button');
+
+    sceneContainer.append(libraryScene, leftButton, rightButton);
+
+    const note = createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' });
+
+    const saveNote = createNote('images/note.webp', 'I can’t shake the feeling I’m here for a reason. She’s always watching, always hiding, waiting for me to <strong>find</strong> her secrets.', {bottom: '58%', left: '15%'});
+
+    sceneContainer.append(note, saveNote);
 }
 
 function loadDiningRoomScene() {
+
+}
+
+function loadStaircaseLandingScene() {
 
 }
