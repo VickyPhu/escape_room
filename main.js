@@ -265,22 +265,27 @@ function loadLibraryScene() {
     leftButton.onclick = loadEntranceHall;
     leftButton.classList.add('left_button');
 
-    const lockedButton = document.createElement('button');
-    lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
-    lockedButton.classList.add('locked_button');
-    lockedButton.id = 'lockedButton_room'
-    lockedButton.disabled = true;
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Staircase landing';
+    rightButton.onclick = loadStaircaseLandingScene;
+    rightButton.classList.add('right_button');
 
-    lockedButton.onclick = () => {
-        console.log('Locked button clicked');
-        if (hasKey('1')) {
-            unlockRoomButton(lockedButton);
-        } else {
-            showMessage('You need a key to unlock this room')
-        }
-    };
+    // const lockedButton = document.createElement('button');
+    // lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
+    // lockedButton.classList.add('locked_button');
+    // lockedButton.id = 'lockedButton_room'
+    // lockedButton.disabled = true;
 
-    sceneContainer.append(libraryScene, leftButton, lockedButton);
+    // lockedButton.onclick = () => {
+    //     console.log('Locked button clicked');
+    //     if (hasKey('1')) {
+    //         unlockRoomButton(lockedButton);
+    //     } else {
+    //         showMessage('You need a key to unlock this room')
+    //     }
+    // };
+
+    sceneContainer.append(libraryScene, leftButton, rightButton);
 
     createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }
     );
@@ -316,6 +321,25 @@ function loadDiningRoomScene() {
 }
 
 function loadStaircaseLandingScene() {
+    sceneContainer.innerHTML = '';
+    const staircaseLandingScene = document.createElement('img');
+    staircaseLandingScene.src = 'images/staircase_landing.webp';
+    staircaseLandingScene.classList.add('background_image');
+
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Library';
+    leftButton.onclick = loadLibraryScene;
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Master Bedroom';
+    rightButton.onclick = loadMasterBedroomScene;
+    rightButton.classList.add('right_button');
+
+    sceneContainer.append(staircaseLandingScene, leftButton, rightButton);
+
+    createNote('images/note.webp', 'Those who seek the truth shall see their own face disappear.', {top: '30%', left: '27%'}
+    );
 
 }
 
@@ -326,11 +350,29 @@ function loadKitchenScene() {
     kitchenScene.src = 'images/kitchen.webp';
     kitchenScene.classList.add('background_image');
 
-    sceneContainer.append(kitchenScene);
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Dining room';
+    leftButton.onclick = loadDiningRoomScene;
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Living room';
+    rightButton.onclick = loadLivingRoomScene;
+    rightButton.classList.add('right_button');
+
+    sceneContainer.append(kitchenScene, leftButton, rightButton);
 
     createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }
     );
 
     createNote('images/note.webp', 'There’s no warmth here, just a hollow shell. I wish she’d just let me <strong>rest</strong>.', {bottom: '44%', left: '17%'}, true
     );
+}
+
+function loadLivingRoomScene() {
+
+}
+
+function loadMasterBedroomScene() {
+
 }
