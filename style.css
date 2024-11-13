@@ -338,6 +338,34 @@ main {
     font-size: 1rem;
 }
 
+/* Winning scene */
+.winning_text {
+    width: 130vh;
+    padding: 2rem;
+    margin-left: 2rem;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-size: 1.5rem;
+    z-index: 10;
+}
+
+.play_again_button {
+    position: absolute;
+    width: 15rem;
+    height: 3.5rem;
+    right: 3rem;
+    bottom: 2rem;
+    border-radius: 2rem;
+    color: #fff;
+    background-color: rgb(255, 132, 0);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-wrap: nowrap;
+    cursor: pointer;
+    transition: 0.5s;
+    z-index: 5;
+}
 
 /* For smaller screens phone and tablet */
 @media (max-width: 1000px) {
@@ -351,6 +379,9 @@ main {
     }
     .password_button {
         width: 18rem;
+    }
+    .winning_text {
+        font-size: 1.2rem;
     }
 }
 
@@ -419,6 +450,9 @@ main {
     }
     .password_button {
         width: 15rem;
+    }
+    .winning_text {
+        font-size: 1rem;
     }
 }
 

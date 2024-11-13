@@ -196,6 +196,7 @@ function showMessage(textMessage) {
 
 /** Creates the start / first scene to start playing */
 function loadStartScene() {
+    sceneContainer.innerHTML = '';
     const startScene = document.createElement('img');
     startScene.src ="images/haunted_house.webp";
     startScene.classList.add('background_image')
@@ -543,6 +544,21 @@ function loadBasementScene() {
 
 
 function loadWinningScene() {
+    sceneContainer.innerHTML = '';
+    const winningScene = document.createElement('img');
+    winningScene.src = 'images/soul_is_freed.webp';
+    winningScene.classList.add('background_image');
+
+    const winningText = document.createElement('p');
+    winningText.classList.add('winning_text');
+    winningText.innerHTML = 'As the password unlocks, a chill sweeps through the room, and Eleanor’s story reveals itself. Driven by a twisted desire for eternal youth, Eleanor performed dark rituals, draining the blood of those lured into her home. Each visitor became a sacrifice, feeding her beauty at the cost of their own lives.<br><br>With the spell broken, Eleanor’s spirit is freed, releasing a final anguished cry. The mansion, no longer bound by her dark magic, begins to fade. You step outside as the cursed house collapses into dust, its tragic secrets buried at last. But as you look back, you wonder if, somewhere, her story lingers, waiting to be told once more...'
+
+    const playAgainButton = document.createElement('button');
+    playAgainButton.textContent = 'Play again';
+    playAgainButton.classList.add('right_button');
+    playAgainButton.onclick = loadStartScene;
+
+    sceneContainer.append(winningScene, winningText, playAgainButton);
 
 }
 
