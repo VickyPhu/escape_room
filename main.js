@@ -7,16 +7,20 @@ const inventory = [];
 
 function main() {
     loadStartScene();
-    createInventoryBox();
+    // createInventoryBox();
 }
 /** Creates an inventory box next to the sceneContainer */
-function createInventoryBox() {
-    const displayInventoryBox = document.getElementById('displayInventoryBox');
-  }
+// function createInventoryBox() {
+//     const displayInventoryBox = document.getElementById('displayInventoryBox');
+//   }
 
-/** Adds collectible items to the end of the inventory in the array and runs updateInventoryDisplay() */
+ /**
+ * Adds collectible items to the end of the inventory in the array and runs updateInventoryDisplay()
+ * @param {String} item 
+ */
 function addItemToInventory(item) {
     inventory.push(item);
+    console.log('Picked up item:', item);
     updateInventoryDisplay();
 }
 
@@ -63,18 +67,26 @@ function updateInventoryDisplay() {
                 inventoryKey.src = item.src;
                 inventoryKey.classList.add('inventory_key');
                 displayInventoryBox.append(inventoryKey);
-            }
-                displayInventoryBox.append(inventoryItem);
-        });
-};
 
-function useKey(item) {
-    const index = inventory.indexOf(item);
-    if (index !== -1) {
-        inventory.splice(index, 1);
-        updateInventoryDisplay();
-    }
-}
+                inventoryKey.onclick = () => {
+                    const lockedButton = document.getElementById('lockedButton_room');
+
+                    if (lockedButton && lockedButton.disabled) {
+                        if (item.id === '1') {
+                            console.log('key is clicked, attempting to unlock room');
+                            unlockRoomButton(lockedButton);
+                            inventoryKey.remove();
+                        }
+                    } else {
+                        console.log('show message')
+                        showMessage('You need to be in the correct room to use the key')
+                    }
+                }
+            }
+            
+            displayInventoryBox.append(inventoryItem);
+        })
+};
 
 /** Creates the small note and the larger note for viewing and closing */
 function createNote(noteSrc, noteText, position, isCollectible = false) {
@@ -120,34 +132,66 @@ function createNote(noteSrc, noteText, position, isCollectible = false) {
     });
 
     sceneContainer.append(note, noteOverlay);
+    
+//duplicated code as the one in displayUpdateInventory?
+    // if (isCollectible) {
+    //     const inventoryNote = document.createElement('img');
+    //     inventoryNote.src = noteSrc;
+    //     inventoryNote.classList.add('inventory_note');
+    //     inventoryNote.onclick = () => {
+    //         noteOverlay.style.display = 'flex';
+    //     }
 
-    if (isCollectible) {
-        const inventoryNote = document.createElement('img');
-        inventoryNote.src = noteSrc;
-        inventoryNote.classList.add('inventory_note');
-        inventoryNote.onclick = () => {
-            noteOverlay.style.display = 'flex';
-        }
-
-        return inventoryNote;
-    }
+    //     return inventoryNote;
+    // }
 }
 
 /** Creates a key that gets added to inventory on click and removed from scene */
-function createKey(keySrc, position) {
-    const key = document.createElement('img');
-    key.src = 'images/gold_key.webp';
-    key.classList.add('gold_key');
+function createKey(keySrc, position, keyId) {
+    // if (hasKey(keyId)) {
+    //     console.log('Key is already collected:', keyId);
+    //     return;
+    // }
 
+    const key = document.createElement('img');
+    key.src = keySrc;
+    key.classList.add('gold_key');
     Object.assign(key.style, position);
     key.style.position = 'absolute';
+
     //The key gets added to the inventory on click
     key.onclick = () => {
-        addItemToInventory({ type: 'key', src: keySrc });
+        console.log(`Key Clicked: ${keyId}`); //debugging
+        addItemToInventory({ type: 'key', id: keyId, src: keySrc });
         key.remove();
     };
 
     sceneContainer.append(key);
+}
+
+function hasKey(keyId) {
+    console.log(`Checking if we have key with id: ${keyId}`);
+    return inventory.some(item => item.type === 'key' && item.id === keyId);
+}
+
+function unlockRoomButton(lockedButton) {
+    lockedButton.disabled = false;
+    lockedButton.classList.remove('locked_button');
+    lockedButton.classList.add('right_button');
+    lockedButton.textContent = 'Staircase landing';
+    lockedButton.onclick = loadStaircaseLandingScene;
+}
+
+function showMessage(textMessage) {
+    const messageBox = document.createElement('div');
+    messageBox.classList.add('message_box');
+    messageBox.textContent = textMessage;
+
+    sceneContainer.append(messageBox);
+
+    setTimeout(() => {
+        messageBox.remove();
+    }, 3000);
 }
 
 /** Creates the start / first scene to start playing */
@@ -221,19 +265,29 @@ function loadLibraryScene() {
     leftButton.onclick = loadEntranceHall;
     leftButton.classList.add('left_button');
 
-    const rightButton = document.createElement('button');
-    rightButton.textContent = 'Staircase landing';
-    rightButton.onclick = loadStaircaseLandingScene;
-    rightButton.classList.add('right_button');
+    const lockedButton = document.createElement('button');
+    lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
+    lockedButton.classList.add('locked_button');
+    lockedButton.id = 'lockedButton_room'
+    lockedButton.disabled = true;
 
-    sceneContainer.append(libraryScene, leftButton, rightButton);
+    lockedButton.onclick = () => {
+        console.log('Locked button clicked');
+        if (hasKey('1')) {
+            unlockRoomButton(lockedButton);
+        } else {
+            showMessage('You need a key to unlock this room')
+        }
+    };
+
+    sceneContainer.append(libraryScene, leftButton, lockedButton);
 
     createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }
     );
 
     createNote('images/note.webp', 'I can’t shake the feeling I’m here for a reason. She’s always watching, always hiding, waiting for me to <strong>find</strong> her secrets.', {bottom: '58%', left: '15%'}, true
     );
-}
+};
 
 /** Creates the Dining room scene(3) with function createNote and createKey */
 function loadDiningRoomScene() {
@@ -257,7 +311,7 @@ function loadDiningRoomScene() {
     createNote('images/note.webp', 'At the last ball, they all marveled at my beauty. None of them know what I’ve done, what I’ve given up to maintain this facade. They wouldn’t admire me if they knew the cost. Still, appearances must be kept, and the ritual must continue.', {top: '10%', right: '30%' }
     );
 
-    createKey('images/gold_key.webp', { bottom: '35%', left: '23%'}
+    createKey('images/gold_key.webp', { bottom: '35%', left: '23%'}, '1'
     );
 }
 
