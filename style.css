@@ -9,8 +9,9 @@ body {
 }
 
 h1 {
-    font-family: 'Nosifer';
+    font-family: 'Creepster';
     color: #fff;
+    font-size: 3rem;
     position: absolute;
     top: 5%;
     z-index: 2;
@@ -18,7 +19,8 @@ h1 {
 
 .game_name {
     position: absolute;
-    top: 25%;
+    font-family: 'Nosifer';
+    top: 20%;
     font-size: 3rem;
     animation: flashColor 3s infinite;
     z-index: 2;
@@ -90,33 +92,64 @@ main {
     width: 80%;
 }
 
-/* Game name title */
-.h1 {
-    position: absolute;
-    color: #fff;
-    font-size: 56px;
-    padding-bottom: 10rem;
-    z-index: 2;
-}
-
 /* Start button at the start scene */
 .startButton {
-    position: absolute;
-    padding: 1rem 5rem;
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 0.8rem 2rem;
+    background-color: #fff;
+    color: #8b0000;
+    border: 2px solid #800000;
     border-radius: 2rem;
-    background-color: transparent;
-    color: #fff;
-    font-size: 28px;
-    font-weight: bold;
+    font-family: 'Nosifer';
     letter-spacing: 1px;
-    background-color: rgb(255, 132, 0);
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: 0.5s;
+    transition: all 0.3s ease;
     z-index: 2;
 }
 
-.startButton:hover {
-    background-color: transparent;
+.startButton:hover, .next_button:hover, .left_button:hover, .right_button:hover, .third_button:hover, .close_button:hover, .submit_password_button:hover {
+    background-color: #ff0000; 
+    box-shadow: 0 0 10px 3px #8b0000;
+    color: #fff;
+}
+
+.startButton::after,
+.startButton::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    width: 3px;
+    height: 10px;
+    background-color: #8b0000;
+    animation: bloodDrip 2s infinite;
+    transform: translateX(-50%);
+}
+
+.startButton::before {
+    left: 70%;
+    animation-delay: 0s;
+}
+
+.startButton::after {
+    left: 80%; 
+    animation-delay: 0.5s;
+}
+
+@keyframes bloodDrip {
+    0% {
+        height: 10px;
+        opacity: 1;
+    }
+    50% {
+        height: 30px;
+        opacity: 0.7;
+    }
+    100% {
+        height: 10px;
+        opacity: 1;
+    }
 }
 
 /* Premise scene */
@@ -131,13 +164,14 @@ main {
 
 .next_button {
     position: absolute;
-    margin-top: 17rem;
+    bottom: 2rem;
     left: 90%;
     transform: translateX(-10%);
     padding: 0.5rem 2em;
     border-radius: 2rem;
-    color: #fff;
-    background-color: rgb(255, 132, 0);
+    border: 2px solid #800000;
+    color: #8b0000;
+    background-color: #fff;
     cursor: pointer;
     transition: 0.5s;
     z-index: 2;
@@ -159,19 +193,15 @@ main {
     left: 3rem;
     bottom: 2rem;
     border-radius: 2rem;
-    color: #fff;
-    background-color: rgb(255, 132, 0);
-    font-size: 20px;
-    font-weight: bold;
+    border: 2px solid #800000;
+    color: #8b0000;
+    background-color: #fff;
+    font-family: 'Nosifer';
     letter-spacing: 1px;
     text-wrap: nowrap;
     cursor: pointer;
     transition: 0.5s;
     z-index: 4;
-}
-
-.left_button:hover {
-    background-color: transparent;
 }
 
 /* Buttons on the right side of the screen */ 
@@ -182,19 +212,15 @@ main {
     right: 3rem;
     bottom: 2rem;
     border-radius: 2rem;
-    color: #fff;
-    background-color: rgb(255, 132, 0);
-    font-size: 20px;
-    font-weight: bold;
+    border: 2px solid #800000;
+    color: #8b0000;
+    background-color: #fff;
+    font-family: 'Nosifer';
     letter-spacing: 1px;
     text-wrap: nowrap;
     cursor: pointer;
     transition: 0.5s;
     z-index: 5;
-}
-
-.right_button:hover {
-    background-color: transparent;
 }
 
 .third_button {
@@ -204,12 +230,12 @@ main {
     right: 3rem;
     bottom: 7rem;
     border-radius: 2rem;
-    color: #fff;
-    background-color: rgb(255, 132, 0);
-    font-size: 20px;
-    font-weight: bold;
+    border: 2px solid #800000;
+    color: #8b0000;
+    background-color: #fff;
+    font-family: 'Nosifer';
     letter-spacing: 1px;
-    text-wrap: nowrap;
+
     cursor: pointer;
     transition: 0.5s;
     z-index: 5;
@@ -263,10 +289,6 @@ main {
     border: none;
     border-radius: 2rem;
     cursor: pointer;
-}
-
-.close_button:hover {
-    background-color: #a54e10;
 }
 
 .gold_key {
@@ -351,11 +373,11 @@ main {
 .submit_password_button {
     padding: 8px 16px;
     border-radius: 2rem;
-    font-size: 16px;
-    font-weight: bold;
+    border: 2px solid #800000;
+    color: #8b0000;
+    background-color: #fff;
+    font-family: 'Nosifer';
     letter-spacing: 1px;
-    background-color: rgb(255, 132, 0);
-    color: #000;
     cursor: pointer;
 }
 
