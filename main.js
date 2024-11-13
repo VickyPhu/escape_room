@@ -370,9 +370,34 @@ function loadKitchenScene() {
 }
 
 function loadLivingRoomScene() {
+    sceneContainer.innerHTML = '';
+    const livingRoomScene = document.createElement('img');
+    livingRoomScene.src = 'images/living_room.webp';
+    livingRoomScene.classList.add('background_image');
 
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Kitchen';
+    leftButton.onclick = loadKitchenScene
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Study';
+    rightButton.onclick = loadStudyScene;
+    rightButton.classList.add('right_button');
+
+    sceneContainer.append(livingRoomScene, leftButton, rightButton);
+
+    createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '30%', left: '45%' }
+    );
+
+    createNote('images/note.webp', 'Every time I think I’ve found my way out, I end up back here. She won’t let me leave until I see her <strong>end</strong>', {top: '27%', right: '16%' }, true
+    );
 }
 
 function loadMasterBedroomScene() {
+
+}
+
+function loadStudyScene() {
 
 }
