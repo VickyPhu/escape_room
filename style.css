@@ -339,7 +339,7 @@ main {
 }
 
 /* Winning scene */
-.winning_text {
+.end_text {
     width: 130vh;
     padding: 2rem;
     margin-left: 2rem;

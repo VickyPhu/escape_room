@@ -487,7 +487,7 @@ function loadBasementScene() {
     const leftButton = document.createElement('button');
     leftButton. textContent = 'Master bedroom';
     leftButton.onclick = loadMasterBedroomScene;
-    left.button.classList.add('left_button');
+    leftButton.classList.add('left_button');
 
     const passwordButton = document.createElement('button');
     passwordButton.classList.add('password_button');
@@ -544,7 +544,7 @@ function loadBasementScene() {
             }
 
         }
-        sceneContainer.append(basementScene, passwordButton, passwordContainer);
+        sceneContainer.append(basementScene, leftButton, passwordButton, passwordContainer);
     }
 
 
@@ -555,7 +555,7 @@ function loadWinningScene() {
     winningScene.classList.add('background_image');
 
     const winningText = document.createElement('p');
-    winningText.classList.add('winning_text');
+    winningText.classList.add('end_text');
     winningText.innerHTML = 'As the password unlocks, a chill sweeps through the room, and Eleanor’s story reveals itself. Driven by a twisted desire for eternal youth, Eleanor performed dark rituals, draining the blood of those lured into her home. Each visitor became a sacrifice, feeding her beauty at the cost of their own lives.<br><br>With the spell broken, Eleanor’s spirit is freed, releasing a final anguished cry. The mansion, no longer bound by her dark magic, begins to fade. You step outside as the cursed house collapses into dust, its tragic secrets buried at last. But as you look back, you wonder if, somewhere, her story lingers, waiting to be told once more...'
 
     const playAgainButton = document.createElement('button');
@@ -568,5 +568,20 @@ function loadWinningScene() {
 }
 
 function loadGameOverScene() {
+    sceneContainer.innerHTML = '';
+    const gameOverScene = document.createElement('img');
+    gameOverScene.src = 'images/.webp'; //Add fitting image here
+    gameOverScene.classList.add('background_image');
+
+    const gameOverText = document.createElement('p');
+    gameOverText.classList.add('end_text');
+    gameOverText.innerHTML = 'As the password eludes you, Eleanor’s ritual begins to take shape in the shadows. The air grows thick with darkness as a chilling whisper fills the room, her ancient words weaving a spell of eternal youth. You try to escape, but it’s too late. Her cold hands grip your arm as she draws near, her eyes glowing with hunger. Slowly, your strength fades away as she drains your life force, just like she did to all the others before you.<br><br>In an instant, you vanish, your body nothing more than a forgotten echo. Eleanor smiles, her spirit forever renewed by the sacrifice of those who dared to uncover her secret. You were just another lost soul, trapped in her web of eternal youth.';
+
+    const tryAgainButton = document.createElement('button');
+    tryAgainButton.textContent = 'Try again';
+    tryAgainButton.classList.add('right_button');
+    tryAgainButton.onclick = loadStartScene;
+
+    sceneContainer.append(gameOverScene, gameOverText, tryAgainButton);
 
 }
