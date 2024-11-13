@@ -387,10 +387,10 @@ function loadLivingRoomScene() {
 
     sceneContainer.append(livingRoomScene, leftButton, rightButton);
 
-    createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '30%', left: '45%' }
+    createNote('images/note.webp', 'I can’t stay here any longer.<br><br> The whispers at night, the shadows that move when no one else should be here—this house is a prison. Eleanor has changed; her eyes, once full of warmth, are now cold as stone. She speaks to herself, murmuring secrets about a life everlasting. She’s trapped herself in something, and I fear she means to do the same to anyone left here. This place is no longer a home; it’s a tomb waiting to seal us in.', {bottom: '30%', left: '45%' }
     );
 
-    createNote('images/note.webp', 'Every time I think I’ve found my way out, I end up back here. She won’t let me leave until I see her <strong>end</strong>', {top: '27%', right: '16%' }, true
+    createNote('images/note.webp', 'Eleanor was different from the others; she never wanted to be like them. She wanted to be more, something beyond human. Her eyes could burn through you, as if she could see right through your very mind', {top: '27%', right: '16%' }
     );
 }
 
@@ -426,6 +426,28 @@ function loadMasterBedroomScene() {
 }
 
 function loadStudyScene() {
+    sceneContainer.innerHTML = '';
+    const studyScene = document.createElement('img');
+    studyScene.src = 'images/study.webp'
+    studyScene.classList.add('background_image');
+
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Living room';
+    leftButton.onclick = loadLivingRoomScene;
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Bathroom';
+    rightButton.onclick = loadBathroomScene;
+    rightButton.classList.add('right_button');
+
+    sceneContainer.append(studyScene, leftButton, rightButton);
+
+    createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '36%', right: '45%' }
+    );
+
+    createNote('images/note.webp', 'In every room, I hear whispers, echoes of those who came before. I need to <strong>end</strong> this cycle, break free from this place.”', {bottom: '55%', left: '23%' }, true
+    );
 
 }
 
