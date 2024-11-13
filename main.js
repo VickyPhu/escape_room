@@ -290,7 +290,7 @@ function loadLibraryScene() {
     createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }
     );
 
-    createNote('images/note.webp', 'I can’t shake the feeling I’m here for a reason. She’s always watching, always hiding, waiting for me to <strong>find</strong> her secrets.', {bottom: '58%', left: '15%'}, true
+    createNote('images/note.webp', 'I feel trapped within these walls, bound by an unseen force. There’s something here, and it won’t <strong>let me go</strong>.', {bottom: '58%', left: '15%'}, true
     );
 };
 
@@ -365,7 +365,7 @@ function loadKitchenScene() {
     createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }
     );
 
-    createNote('images/note.webp', 'There’s no warmth here, just a hollow shell. I wish she’d just let me <strong>rest</strong>.', {bottom: '44%', left: '17%'}, true
+    createNote('images/note.webp', 'There’s no comfort here, no warmth. I long to <strong>escape</strong>, to find a place where I can rest..', {bottom: '44%', left: '17%'}, true
     );
 }
 
@@ -420,7 +420,7 @@ function loadMasterBedroomScene() {
     createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }
     );
 
-    createNote('images/note.webp', 'I can feel her anger down here. It’s a constant, heavy weight, and I just want to <strong>escape</strong>.', {bottom: '15%', right: '38%' }, true
+    createNote('images/note.webp', 'She watches from every shadow. The house is alive with her <strong>anger</strong>.', {bottom: '15%', right: '38%' }, true
     );
 
 }
