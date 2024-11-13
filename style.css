@@ -169,6 +169,24 @@ main {
     background-color: transparent;
 }
 
+.third_button {
+    position: absolute;
+    width: 15rem;
+    height: 3.5rem;
+    right: 3rem;
+    bottom: 7rem;
+    border-radius: 2rem;
+    color: #fff;
+    background-color: rgb(255, 132, 0);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-wrap: nowrap;
+    cursor: pointer;
+    transition: 0.5s;
+    z-index: 5;
+}
+
 /* Note on the scene before it's been cliked */
 .small_note {
     width: 3%;
@@ -317,6 +335,14 @@ main {
         height: 2.5rem;
         right: 1rem;
         bottom: 1rem;
+        font-size: 14px;
+        padding: 0.5rem 1em;
+    }
+    .third_button {
+        width: 10rem;
+        height: 2.5rem;
+        right: 1rem;
+        bottom: 4rem;
         font-size: 14px;
         padding: 0.5rem 1em;
     }

@@ -395,9 +395,44 @@ function loadLivingRoomScene() {
 }
 
 function loadMasterBedroomScene() {
+    sceneContainer.innerHTML = '';
+    const masterBedroomScene = document.createElement('img');
+    masterBedroomScene.src = 'images/master_bedroom.webp';
+    masterBedroomScene.classList.add('background_image');
+
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Staircase landing'
+    leftButton.onclick = loadStaircaseLandingScene;
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Bathroom';
+    rightButton.onclick = loadBathroomScene;
+    rightButton.classList.add('right_button');
+
+    const thirdButton = document.createElement('button');
+    thirdButton.textContent = 'Basement';
+    thirdButton.onclick = loadBasementScene;
+    thirdButton.classList.add('third_button');
+
+    sceneContainer.append(masterBedroomScene, leftButton, rightButton, thirdButton);
+
+    createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }
+    );
+
+    createNote('images/note.webp', 'I can feel her anger down here. It’s a constant, heavy weight, and I just want to <strong>escape</strong>.', {bottom: '15%', right: '38%' }, true
+    );
 
 }
 
 function loadStudyScene() {
+
+}
+
+function loadBathroomScene() {
+
+}
+
+function loadBasementScene() {
 
 }
