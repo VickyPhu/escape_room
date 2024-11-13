@@ -478,5 +478,74 @@ function loadBathroomScene() {
 }
 
 function loadBasementScene() {
+    sceneContainer.innerHTML = '';
+    const basementScene = document.createElement('img');
+    basementScene.src = 'images/basement.webp';
+    basementScene.classList.add('background_image');
+
+    const passwordButton = document.createElement('button');
+    passwordButton.classList.add('password_button');
+    passwordButton.onclick = () => {
+        if (passwordContainer.style.display === 'none') {
+            passwordContainer.style.display = 'flex';
+        } else {
+            passwordContainer.style.display = 'none';
+        }
+    };
+
+        const passwordContainer = document.createElement('div');
+        passwordContainer.classList.add('password_container');
+
+        const passwordInput = document.createElement('input');
+        passwordInput.type = 'text';
+        passwordInput.placeholder = 'Enter the password';
+        passwordInput.classList.add('password_input');
+
+        const submitPasswordButton = document.createElement('button');
+        submitPasswordButton.textContent = 'Submit';
+        submitPasswordButton.classList.add('submit_password_button');
+
+        const hintText = document.createElement('p');
+        hintText.classList.add('hint_text');
+        hintText.textContent = '';
+
+        const closeButton = document.createElement('button');
+        closeButton.innerHTML = '<i class="fa-solid fa-x"></i>';
+        closeButton.classList.add('close_button');
+        closeButton.onclick = () => { 
+            passwordContainer.style.display = 'none';
+        };
+
+        passwordContainer.append(passwordInput, submitPasswordButton, hintText, closeButton);
+
+        let attempts = 0;
+        const validPasswords = ['LEAVE', 'Leave', 'leave'];
+
+        submitPasswordButton.onclick = () => {
+            const playerInput = passwordInput.value;
+
+            if (validPasswords.includes(playerInput)) {
+                loadWinningScene();
+            } else {
+                attempts++;
+                if (attempts === 1) {
+                    hintText.textContent = 'Hint: The password consists of a five-letter word'
+                } else if (attempts === 2) {
+                    hintText.textContent = 'Hint: The first letter is L';
+                } else {
+                    loadGameOverScene();
+                }
+            }
+
+        }
+        sceneContainer.append(basementScene, passwordButton, passwordContainer);
+    }
+
+
+function loadWinningScene() {
+
+}
+
+function loadGameOverScene() {
 
 }
