@@ -484,6 +484,11 @@ function loadBasementScene() {
     basementScene.src = 'images/basement.webp';
     basementScene.classList.add('background_image');
 
+    const leftButton = document.createElement('button');
+    leftButton. textContent = 'Master bedroom';
+    leftButton.onclick = loadMasterBedroomScene;
+    left.button.classList.add('left_button');
+
     const passwordButton = document.createElement('button');
     passwordButton.classList.add('password_button');
     passwordButton.onclick = () => {
