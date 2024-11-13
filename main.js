@@ -452,6 +452,28 @@ function loadStudyScene() {
 }
 
 function loadBathroomScene() {
+    sceneContainer.innerHTML = '';
+    const bathroomScene = document.createElement('img');
+    bathroomScene.src = 'images/bathroom.webp';
+    bathroomScene.classList.add('background_image');
+
+    const leftButton = document.createElement('button');
+    leftButton.textContent = 'Master Bedroom';
+    leftButton.onclick = loadBathroomScene;
+    leftButton.classList.add('left_button');
+
+    const rightButton = document.createElement('button')
+    rightButton.textContent = 'Study';
+    rightButton.onclick = loadStudyScene;
+    rightButton.classList.add('right_button');
+
+    sceneContainer.append(bathroomScene, leftButton, rightButton);
+
+    createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }
+    );
+
+    createKey('images/gold_key.webp', { bottom: '43%', right: '37%'}, 'key2'
+    );
 
 }
 
