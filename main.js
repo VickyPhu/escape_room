@@ -459,7 +459,7 @@ function loadBathroomScene() {
 
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Master Bedroom';
-    leftButton.onclick = loadBathroomScene;
+    leftButton.onclick = loadMasterBedroomScene;
     leftButton.classList.add('left_button');
 
     const rightButton = document.createElement('button')
