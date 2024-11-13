@@ -203,7 +203,7 @@ function loadStartScene() {
 
     const gameName = document.createElement('h1');
     gameName.textContent = 'Vanished in Silence';
-    gameName.classList.add('h1');
+    gameName.classList.add('game_name');
 
     const button = document.createElement('button');
     button.textContent = 'Start';
@@ -236,6 +236,9 @@ function loadEntranceHall() {
     const entranceHall = document.createElement('img');
     entranceHall.src = 'images/entrance_hall.webp';
     entranceHall.classList.add('background_image');
+
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Entrance Hall';
     
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Library';
@@ -251,7 +254,7 @@ function loadEntranceHall() {
         'images/note.webp', 'To whoever enters after me, I was foolish enough to believe I could find a way out…but the doors only open when the truth of Eleanor’s story is uncovered. <br><br>Look closely at what you find—each note has a purpose. There are whispers of a code to escape, something left behind by the ones who vanished before me. <br><br>Remember this: Eleanor’s ‘favorite four’ may hold the key. I’ve gathered that letters and fragments combine for freedom. But I must hurry… I hear footsteps, though no one should be here.', { top: '30%', left: '60%' }
     );
 
-    sceneContainer.append(entranceHall, leftButton, rightButton);
+    sceneContainer.append(entranceHall, sceneTitle, leftButton, rightButton);
 
 }
 
@@ -260,6 +263,9 @@ function loadLibraryScene() {
     const libraryScene = document.createElement('img');
     libraryScene.src = 'images/library.webp'
     libraryScene.classList.add('background_image');
+
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Library';
 
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Entrance hall';
@@ -286,7 +292,7 @@ function loadLibraryScene() {
     //     }
     // };
 
-    sceneContainer.append(libraryScene, leftButton, rightButton);
+    sceneContainer.append(libraryScene, sceneTitle, leftButton, rightButton);
 
     createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }
     );
@@ -302,6 +308,9 @@ function loadDiningRoomScene() {
     diningRoomScene.src = 'images/dining_room.webp';
     diningRoomScene.classList.add('background_image');
 
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Dining room';
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Entrance hall';
     leftButton.onclick = loadEntranceHall;
@@ -312,7 +321,7 @@ function loadDiningRoomScene() {
     rightButton.onclick = loadKitchenScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(diningRoomScene, leftButton, rightButton);
+    sceneContainer.append(diningRoomScene, sceneTitle, leftButton, rightButton);
 
     createNote('images/note.webp', 'At the last ball, they all marveled at my beauty. None of them know what I’ve done, what I’ve given up to maintain this facade. They wouldn’t admire me if they knew the cost. Still, appearances must be kept, and the ritual must continue.', {top: '10%', right: '30%' }
     );
@@ -327,6 +336,9 @@ function loadStaircaseLandingScene() {
     staircaseLandingScene.src = 'images/staircase_landing.webp';
     staircaseLandingScene.classList.add('background_image');
 
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Staircase landing';
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Library';
     leftButton.onclick = loadLibraryScene;
@@ -337,7 +349,7 @@ function loadStaircaseLandingScene() {
     rightButton.onclick = loadMasterBedroomScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(staircaseLandingScene, leftButton, rightButton);
+    sceneContainer.append(staircaseLandingScene, sceneTitle, leftButton, rightButton);
 
     createNote('images/note.webp', 'Those who seek the truth shall see their own face disappear.', {top: '30%', left: '27%'}
     );
@@ -351,6 +363,9 @@ function loadKitchenScene() {
     kitchenScene.src = 'images/kitchen.webp';
     kitchenScene.classList.add('background_image');
 
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Kitchen';
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Dining room';
     leftButton.onclick = loadDiningRoomScene;
@@ -361,7 +376,7 @@ function loadKitchenScene() {
     rightButton.onclick = loadLivingRoomScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(kitchenScene, leftButton, rightButton);
+    sceneContainer.append(kitchenScene, sceneTitle, leftButton, rightButton);
 
     createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }
     );
@@ -376,6 +391,9 @@ function loadLivingRoomScene() {
     livingRoomScene.src = 'images/living_room.webp';
     livingRoomScene.classList.add('background_image');
 
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Living room';
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Kitchen';
     leftButton.onclick = loadKitchenScene
@@ -386,7 +404,7 @@ function loadLivingRoomScene() {
     rightButton.onclick = loadStudyScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(livingRoomScene, leftButton, rightButton);
+    sceneContainer.append(livingRoomScene, sceneTitle, leftButton, rightButton);
 
     createNote('images/note.webp', 'I can’t stay here any longer.<br><br> The whispers at night, the shadows that move when no one else should be here—this house is a prison. Eleanor has changed; her eyes, once full of warmth, are now cold as stone. She speaks to herself, murmuring secrets about a life everlasting. She’s trapped herself in something, and I fear she means to do the same to anyone left here. This place is no longer a home; it’s a tomb waiting to seal us in.', {bottom: '30%', left: '45%' }
     );
@@ -400,6 +418,9 @@ function loadMasterBedroomScene() {
     const masterBedroomScene = document.createElement('img');
     masterBedroomScene.src = 'images/master_bedroom.webp';
     masterBedroomScene.classList.add('background_image');
+
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Master bedroom';
 
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Staircase landing'
@@ -416,7 +437,7 @@ function loadMasterBedroomScene() {
     thirdButton.onclick = loadBasementScene;
     thirdButton.classList.add('third_button');
 
-    sceneContainer.append(masterBedroomScene, leftButton, rightButton, thirdButton);
+    sceneContainer.append(masterBedroomScene, sceneTitle, leftButton, rightButton, thirdButton);
 
     createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }
     );
@@ -432,6 +453,9 @@ function loadStudyScene() {
     studyScene.src = 'images/study.webp'
     studyScene.classList.add('background_image');
 
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Study';
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Living room';
     leftButton.onclick = loadLivingRoomScene;
@@ -442,7 +466,7 @@ function loadStudyScene() {
     rightButton.onclick = loadBathroomScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(studyScene, leftButton, rightButton);
+    sceneContainer.append(studyScene, sceneTitle, leftButton, rightButton);
 
     createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '36%', right: '45%' }
     );
@@ -458,6 +482,9 @@ function loadBathroomScene() {
     bathroomScene.src = 'images/bathroom.webp';
     bathroomScene.classList.add('background_image');
 
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Bathroom';
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Master Bedroom';
     leftButton.onclick = loadMasterBedroomScene;
@@ -468,7 +495,7 @@ function loadBathroomScene() {
     rightButton.onclick = loadStudyScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(bathroomScene, leftButton, rightButton);
+    sceneContainer.append(bathroomScene, sceneTitle, leftButton, rightButton);
 
     createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }
     );
@@ -483,6 +510,9 @@ function loadBasementScene() {
     const basementScene = document.createElement('img');
     basementScene.src = 'images/basement.webp';
     basementScene.classList.add('background_image');
+
+    const sceneTitle = document.createElement('h1');
+    sceneTitle.textContent = 'Basement';
 
     const leftButton = document.createElement('button');
     leftButton. textContent = 'Master bedroom';
@@ -544,7 +574,7 @@ function loadBasementScene() {
             }
 
         }
-        sceneContainer.append(basementScene, leftButton, passwordButton, passwordContainer);
+        sceneContainer.append(basementScene, sceneTitle, leftButton, passwordButton, passwordContainer);
     }
 
 

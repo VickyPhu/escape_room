@@ -8,6 +8,34 @@ body {
     background-color: #000;
 }
 
+h1 {
+    font-family: 'Nosifer';
+    color: #fff;
+    position: absolute;
+    top: 5%;
+    z-index: 2;
+}
+
+.game_name {
+    position: absolute;
+    top: 25%;
+    font-size: 3rem;
+    animation: flashColor 3s infinite;
+    z-index: 2;
+}
+
+@keyframes flashColor {
+    0% {
+        color: #fff;
+    }
+    50% {
+        color: #780606;
+    }
+    100% {
+        color: #fff;
+    }
+}
+
 main {
     display: flex;
 }
