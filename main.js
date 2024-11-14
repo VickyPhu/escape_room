@@ -85,35 +85,12 @@ function loadGameData() {
         // gameData.unlockedScenes = parseData.unlockedScenes;
     }
 }
+
+/** When reloading page, checks for saved data in localStorage then loads current scene and any collected items */
 function initGame() {
-    // Hide the scene container initially to avoid flashing the start scene
-    sceneContainer.classList.add('hidden');
-
-    // Load game data from localStorage
-    let gameData = localStorage.getItem('gameData');
-    
-    if (gameData) {
-        // Parse the saved game data if it exists
-        gameData = JSON.parse(gameData);
-        
-        // Load the saved scene
-        loadScene(gameData.currentScene);
-        
-        // Load the collected items (if any) into the inventory
-        // loadCollectedItems(gameData.collectedItems || []);
-    } else {
-        // If no saved data, initialize game data with a default scene and items
-        gameData = {
-            currentScene: 'startScene',
-            collectedItems: []
-        };
-        
-        // Load the start scene
-        loadScene(gameData.currentScene);
-    }
-
-    // Show the scene container after loading is complete
-    sceneContainer.classList.remove('hidden');
+    loadGameData(); 
+    loadScene(gameData.currentScene); 
+    // loadCollectedItems(gameData.collectedItems);
 }
 
  /**
