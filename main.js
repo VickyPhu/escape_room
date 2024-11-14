@@ -5,6 +5,12 @@ let inventoryBox;
 /** Stores the inventory items - notes and keys */
 const inventory = [];
 
+const gameData = {
+    currentScene: 'startScene',
+    collectedItems: []
+    // unlockedScenes: ['staircaseLandingScene', 'basementScene']
+};
+
 function main() {
     loadStartScene();
     // createInventoryBox();
@@ -14,8 +20,104 @@ function main() {
 //     const displayInventoryBox = document.getElementById('displayInventoryBox');
 //   }
 
+function loadScene(sceneName) {
+    switch (sceneName) {
+        case 'premiseScene':
+            loadPremiseScene();
+            break;
+        case 'entranceHallScene':
+            loadEntranceHallScene();
+            break;
+        case 'libraryScene':
+            loadLibraryScene();
+            break;
+        case 'diningRoomScene':
+            loadDiningRoomScene();
+            break;
+        case 'staircaseLandingScene':
+            loadStaircaseLandingScene();
+            break;
+        case 'kitchenScene':
+            loadKitchenScene();
+            break;
+        case 'livingRoomScene':
+            loadLivingRoomScene();
+            break;
+        case 'masterBedroomScene':
+            loadMasterBedroomScene();
+            break;
+        case 'studyScene':
+            loadStudyScene();
+            break;
+        case 'bathroomScene':
+            loadBathroomScene();
+            break;
+        case 'basementScene':
+            loadBasementScene();    
+    }
+}
+
+/** Converts the gameData to a JSON string and stores it in localStorage with key gameData */
+function saveGameData() {
+    localStorage.setItem('gameData', JSON.stringify(gameData));
+}
+/** Saves gameData when player moves to a new scene */
+function changeScene(newScene) {
+    gameData.currentScene = newScene;
+    saveGameData();
+    loadScene(newScene);
+}
+
+/** Saves the gameData when a new item is picked up or change of scenes */
+// function collectItem(item) {
+//     if (!gameData.collectedItems.includes(item)) {
+//         gameData.collectedItems.push(item);
+//         saveGameData();
+//     }
+// }
+/** Retrieves the stored data in localStorage and parse it back from JSON string to the object gameData */
+function loadGameData() {
+    const savedData = localStorage.getItem('gameData');
+    if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        gameData.currentScene = parsedData.currentScene;
+        // gameData.collectedItems = parsedData.collectedItems;
+        // gameData.unlockedScenes = parseData.unlockedScenes;
+    }
+}
+function initGame() {
+    // Hide the scene container initially to avoid flashing the start scene
+    sceneContainer.classList.add('hidden');
+
+    // Load game data from localStorage
+    let gameData = localStorage.getItem('gameData');
+    
+    if (gameData) {
+        // Parse the saved game data if it exists
+        gameData = JSON.parse(gameData);
+        
+        // Load the saved scene
+        loadScene(gameData.currentScene);
+        
+        // Load the collected items (if any) into the inventory
+        // loadCollectedItems(gameData.collectedItems || []);
+    } else {
+        // If no saved data, initialize game data with a default scene and items
+        gameData = {
+            currentScene: 'startScene',
+            collectedItems: []
+        };
+        
+        // Load the start scene
+        loadScene(gameData.currentScene);
+    }
+
+    // Show the scene container after loading is complete
+    sceneContainer.classList.remove('hidden');
+}
+
  /**
- * Adds collectible items to the end of the inventory in the array and runs updateInventoryDisplay()
+ * Adds collectible notes and keys (items) to the end of the inventory
  * @param {String} item 
  */
 function addItemToInventory(item) {
@@ -214,6 +316,9 @@ function loadStartScene() {
 }
 /** Created the premise scene / intro to the game */
 function loadPremiseScene() {
+    gameData.currentScene = 'premiseScene';
+    saveGameData();
+    
     sceneContainer.innerHTML = '';
     const premiseScene = document.createElement('img');
     premiseScene.src = 'images/premise.webp';
@@ -226,12 +331,15 @@ function loadPremiseScene() {
     const button = document.createElement('button');
     button.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
     button.classList.add('next_button');
-    button.onclick = loadEntranceHall;
+    button.onclick = loadEntranceHallScene;
 
     sceneContainer.append(premiseScene, premiseText, button);
 }
 /** Creates the Entrance hall scene(1), also using the function createNote */
-function loadEntranceHall() {
+function loadEntranceHallScene() {
+    gameData.currentScene = 'entranceHallScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const entranceHall = document.createElement('img');
     entranceHall.src = 'images/entrance_hall.webp';
@@ -259,6 +367,9 @@ function loadEntranceHall() {
 }
 
 function loadLibraryScene() {
+    gameData.currentScene = 'libraryScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const libraryScene = document.createElement('img');
     libraryScene.src = 'images/library.webp'
@@ -269,7 +380,7 @@ function loadLibraryScene() {
 
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Entrance hall';
-    leftButton.onclick = loadEntranceHall;
+    leftButton.onclick = loadEntranceHallScene;
     leftButton.classList.add('left_button');
 
     const rightButton = document.createElement('button');
@@ -303,6 +414,9 @@ function loadLibraryScene() {
 
 /** Creates the Dining room scene(3) with function createNote and createKey */
 function loadDiningRoomScene() {
+    gameData.currentScene = 'diningRoomScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const diningRoomScene = document.createElement('img');
     diningRoomScene.src = 'images/dining_room.webp';
@@ -313,7 +427,7 @@ function loadDiningRoomScene() {
 
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Entrance hall';
-    leftButton.onclick = loadEntranceHall;
+    leftButton.onclick = loadEntranceHallScene;
     leftButton.classList.add('left_button');
 
     const rightButton = document.createElement('button');
@@ -331,6 +445,9 @@ function loadDiningRoomScene() {
 }
 
 function loadStaircaseLandingScene() {
+    gameData.currentScene = 'staircaseLandingScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const staircaseLandingScene = document.createElement('img');
     staircaseLandingScene.src = 'images/staircase_landing.webp';
@@ -358,6 +475,9 @@ function loadStaircaseLandingScene() {
 
 /** Creates kitchen scene(4) with two notes, one collectible */
 function loadKitchenScene() {
+    gameData.currentScene = 'kitchenScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const kitchenScene = document.createElement('img');
     kitchenScene.src = 'images/kitchen.webp';
@@ -386,6 +506,9 @@ function loadKitchenScene() {
 }
 
 function loadLivingRoomScene() {
+    gameData.currentScene = 'livingRoomScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const livingRoomScene = document.createElement('img');
     livingRoomScene.src = 'images/living_room.webp';
@@ -414,6 +537,9 @@ function loadLivingRoomScene() {
 }
 
 function loadMasterBedroomScene() {
+    gameData.currentScene = 'masterBedroomScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const masterBedroomScene = document.createElement('img');
     masterBedroomScene.src = 'images/master_bedroom.webp';
@@ -448,6 +574,9 @@ function loadMasterBedroomScene() {
 }
 
 function loadStudyScene() {
+    gameData.currentScene = 'studyScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const studyScene = document.createElement('img');
     studyScene.src = 'images/study.webp'
@@ -477,6 +606,9 @@ function loadStudyScene() {
 }
 
 function loadBathroomScene() {
+    gameData.currentScene = 'bathroomScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const bathroomScene = document.createElement('img');
     bathroomScene.src = 'images/bathroom.webp';
@@ -506,6 +638,9 @@ function loadBathroomScene() {
 }
 
 function loadBasementScene() {
+    gameData.currentScene = 'basementScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const basementScene = document.createElement('img');
     basementScene.src = 'images/basement.webp';
@@ -591,7 +726,10 @@ function loadWinningScene() {
     const playAgainButton = document.createElement('button');
     playAgainButton.textContent = 'Play again';
     playAgainButton.classList.add('right_button');
-    playAgainButton.onclick = loadStartScene;
+    playAgainButton.onclick = () => {
+        localStorage.clear();
+        loadStartScene();
+    }
 
     sceneContainer.append(winningScene, winningText, playAgainButton);
 
@@ -610,8 +748,13 @@ function loadGameOverScene() {
     const tryAgainButton = document.createElement('button');
     tryAgainButton.textContent = 'Try again';
     tryAgainButton.classList.add('right_button');
-    tryAgainButton.onclick = loadStartScene;
+    tryAgainButton.onclick = () => {
+        localStorage.clear();
+        loadStartScene();
+    }
 
     sceneContainer.append(gameOverScene, gameOverText, tryAgainButton);
 
 }
+
+window.onload = initGame;

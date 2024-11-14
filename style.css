@@ -417,6 +417,10 @@ main {
     z-index: 5;
 }
 
+.hidden {
+    display: none;
+}
+
 /* For smaller screens phone and tablet */
 @media (max-width: 1000px) {
     .note_text {
