@@ -53,7 +53,13 @@ function loadScene(sceneName) {
             loadBathroomScene();
             break;
         case 'basementScene':
-            loadBasementScene();    
+            loadBasementScene();
+            break;
+        case 'winningScene':
+            loadWinningScene();
+            break;
+        case 'gameOverScene':
+            loadGameOverScene();            
     }
 }
 
@@ -773,6 +779,9 @@ function loadBasementScene() {
 
 
 function loadWinningScene() {
+    gameData.currentScene = 'winningScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const winningScene = document.createElement('img');
     winningScene.src = 'images/soul_is_freed.webp';
@@ -802,6 +811,9 @@ function loadWinningScene() {
 }
 
 function loadGameOverScene() {
+    gameData.currentScene = 'gameOverScene';
+    saveGameData();
+
     sceneContainer.innerHTML = '';
     const gameOverScene = document.createElement('img');
     gameOverScene.src = 'images/woman_starting_ritual.webp'; //Add fitting image here
