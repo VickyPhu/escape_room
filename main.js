@@ -754,7 +754,13 @@ function loadBasementScene() {
 
         passwordContainer.append(passwordInput, submitPasswordButton, hintText, closeButton);
 
-        let attempts = 0;
+        let attempts = parseInt(localStorage.getItem('attempts')) || 0;
+        let hintTextContent = localStorage.getItem('hintText') || '';
+        
+        if (hintTextContent) {
+            hintText.textContent = hintTextContent;
+        }
+
         const validPasswords = ['LEAVE', 'Leave', 'leave'];
 
         submitPasswordButton.onclick = () => {
@@ -762,17 +768,26 @@ function loadBasementScene() {
 
             if (validPasswords.includes(playerInput)) {
                 loadWinningScene();
+                localStorage.removeItem('attempts');
+                localStorage.removeItem('hintText');
             } else {
                 attempts++;
+                localStorage.setItem('attempts', attempts);
                 if (attempts === 1) {
-                    hintText.textContent = 'Hint: The password consists of a five-letter word'
+                    hintTextContent = 'Hint: The password consists of a five-letter word'
                 } else if (attempts === 2) {
-                    hintText.textContent = 'Hint: The first letter is L';
+                    hintTextContent = 'Hint: The second and fourth letter is E. This is the last attempt';
                 } else {
                     loadGameOverScene();
+                    localStorage.removeItem('attempts');
+                    localStorage.removeItem('hintText');
+                    return;
                 }
-            }
 
+                hintText.textContent = hintTextContent;
+                localStorage.setItem('hintText', hintTextContent);
+            }
+            console.log("Hint Text:", hintTextContent);
         }
         sceneContainer.append(basementScene, sceneTitle, leftButton, passwordButton, passwordContainer);
     }
