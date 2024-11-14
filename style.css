@@ -17,6 +17,19 @@ h1 {
     z-index: 2;
 }
 
+p {
+    font-family: 'IM Fell English';
+}
+
+.number_of_items_text {
+    font-family: 'Creepster';
+    position: absolute;
+    font-size: 1rem;
+    top: 15%;
+    color: #fff;
+    z-index: 2;
+}
+
 .game_name {
     position: absolute;
     font-family: 'Nosifer';
@@ -31,7 +44,7 @@ h1 {
         color: #fff;
     }
     50% {
-        color: #780606;
+        color: #8b0000;
     }
     100% {
         color: #fff;
@@ -50,8 +63,9 @@ main {
     width: 80%;
     height: 90vh;
     margin: 2rem 0rem 0rem 5rem;
-    border: 0.5rem solid #934705;
-    border-radius: 1rem;
+    border: 0.5rem solid #800000;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
     overflow: hidden;
 }
 
@@ -67,29 +81,31 @@ main {
 #displayInventoryBox {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    align-items: center;
+    gap: 0.5rem;
     width: 10%;
     height: 90vh;
     margin-top: 2rem;
     margin-right: 2rem;
-    border-radius: 1rem;
-    border: 0.5rem solid #934705;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border: 0.5rem solid #800000;
 }
 
 .inventory_item {
-    display: flex; /* Enable flex layout inside each grid item */
-    justify-content: center; 
-    align-items: center; 
-    border-bottom: 0.5rem solid #934705;
+    width: 100%;
+    border-bottom: 0.5rem solid #800000;
 }
 
 .inventory_note {
+    width: 60%;
     padding: 5px;
     cursor: pointer;
 }
 
 .inventory_key {
-    width: 80%;
+    width: 50%;
+    cursor: pointer;
 }
 
 /* Start button at the start scene */
@@ -99,7 +115,7 @@ main {
     padding: 0.8rem 2rem;
     background-color: #fff;
     color: #8b0000;
-    border: 2px solid #800000;
+    border: 5px solid #800000;
     border-radius: 2rem;
     font-family: 'Nosifer';
     letter-spacing: 1px;
@@ -157,8 +173,8 @@ main {
     position: absolute;
     color: #fff;
     width: 80%;
-    font-size: 20px;
-    line-height: 1.2;
+    font-size: 1.5rem;
+    line-height: 1.5;
     z-index: 2;
 }
 
@@ -169,16 +185,12 @@ main {
     transform: translateX(-10%);
     padding: 0.5rem 2em;
     border-radius: 2rem;
-    border: 2px solid #800000;
+    border: 5px solid #800000;
     color: #8b0000;
     background-color: #fff;
     cursor: pointer;
     transition: 0.5s;
     z-index: 2;
-}
-
-.next_button:hover {
-    background-color: transparent;
 }
 
 .fa-solid.fa-arrow-right {
@@ -188,16 +200,17 @@ main {
 /* Buttons on the left side of the screen */ 
 .left_button {
     position: absolute;
-    width: 15rem;
+    width: 16rem;
     height: 3.5rem;
     left: 3rem;
     bottom: 2rem;
     border-radius: 2rem;
-    border: 2px solid #800000;
+    border: 5px solid #800000;
     color: #8b0000;
     background-color: #fff;
     font-family: 'Nosifer';
     letter-spacing: 1px;
+    font-size: 1rem;
     text-wrap: nowrap;
     cursor: pointer;
     transition: 0.5s;
@@ -207,38 +220,39 @@ main {
 /* Buttons on the right side of the screen */ 
 .right_button {
     position: absolute;
-    width: 15rem;
+    width: 16rem;
     height: 3.5rem;
     right: 3rem;
     bottom: 2rem;
     border-radius: 2rem;
-    border: 2px solid #800000;
+    border: 5px solid #800000;
     color: #8b0000;
     background-color: #fff;
     font-family: 'Nosifer';
+    font-size: 1rem;
     letter-spacing: 1px;
     text-wrap: nowrap;
     cursor: pointer;
     transition: 0.5s;
-    z-index: 5;
+    z-index: 4;
 }
 
 .third_button {
     position: absolute;
-    width: 15rem;
+    width: 16rem;
     height: 3.5rem;
     right: 3rem;
     bottom: 7rem;
     border-radius: 2rem;
-    border: 2px solid #800000;
+    border: 5px solid #800000;
     color: #8b0000;
     background-color: #fff;
     font-family: 'Nosifer';
     letter-spacing: 1px;
-
+    font-size: 1rem;
     cursor: pointer;
     transition: 0.5s;
-    z-index: 5;
+    z-index: 4;
 }
 
 /* Note on the scene before it's been cliked */
@@ -275,8 +289,9 @@ main {
     left: 33%;
     right: 33%;
     color: #000;
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-align: center;
+    font-family: 'Shadows Into Light Two', 'Sans-serif';
     line-height: 1.2;
     z-index: 11;
 }
@@ -308,8 +323,8 @@ main {
     right: 3rem;
     bottom: 2rem;
     border-radius: 2rem;
-    font-size: 20px;
-    font-weight: bold;
+    font-family: 'Nosifer';
+    font-size: 1rem;
     letter-spacing: 1px;
     text-wrap: nowrap;
     z-index: 5;
@@ -388,33 +403,14 @@ main {
     font-size: 1rem;
 }
 
-/* Winning and game over scene */
+/* Winning and game over scene text */
 .end_text {
-    width: 130vh;
+    width: 100vh;
     padding: 2rem;
-    margin-left: 2rem;
     color: #fff;
     background-color: rgba(0, 0, 0, 0.4);
     font-size: 1.5rem;
-    z-index: 10;
-}
-
-.play_again_button {
-    position: absolute;
-    width: 15rem;
-    height: 3.5rem;
-    right: 3rem;
-    bottom: 2rem;
-    border-radius: 2rem;
-    color: #fff;
-    background-color: rgb(255, 132, 0);
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-wrap: nowrap;
-    cursor: pointer;
-    transition: 0.5s;
-    z-index: 5;
+    z-index: 2;
 }
 
 /* For smaller screens phone and tablet */
@@ -427,10 +423,16 @@ main {
     .gold_key {
         width: 7%;
     }
+    .inventory_note {
+        width: 100%;
+    }
+    .inventory_key {
+        width: 70%;
+    }
     .password_button {
         width: 18rem;
     }
-    .winning_text {
+    .end_text {
         font-size: 1.2rem;
     }
 }
@@ -498,10 +500,11 @@ main {
     .gold_key {
         width: 10%;
     }
+
     .password_button {
         width: 15rem;
     }
-    .winning_text {
+    .end_text {
         font-size: 1rem;
     }
 }

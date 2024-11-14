@@ -367,6 +367,10 @@ function loadEntranceHallScene() {
 
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Entrance Hall';
+
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'One note';
+    numberOfItemsText.classList.add('number_of_items_text');
     
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Library';
@@ -382,7 +386,7 @@ function loadEntranceHallScene() {
         'images/note.webp', 'To whoever enters after me, I was foolish enough to believe I could find a way out…but the doors only open when the truth of Eleanor’s story is uncovered. <br><br>Look closely at what you find—each note has a purpose. There are whispers of a code to escape, something left behind by the ones who vanished before me. <br><br>Remember this: Eleanor’s ‘favorite four’ may hold the key. I’ve gathered that letters and fragments combine for freedom. But I must hurry… I hear footsteps, though no one should be here.', { top: '30%', left: '60%' }, 'note_1'
     );
 
-    sceneContainer.append(entranceHall, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(entranceHall, sceneTitle, numberOfItemsText,leftButton, rightButton);
 
 }
 
@@ -397,6 +401,10 @@ function loadLibraryScene() {
 
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Library';
+
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'Two notes';
+    numberOfItemsText.classList.add('number_of_items_text');
 
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Entrance hall';
@@ -423,12 +431,12 @@ function loadLibraryScene() {
     //     }
     // };
 
-    sceneContainer.append(libraryScene, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(libraryScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
     createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }, 'note_2'
     );
 
-    createNote('images/note.webp', 'I feel trapped within these walls, bound by an unseen force. There’s something here, and it won’t <strong>let</strong> me go.', {bottom: '58%', left: '15%'}, 'note_3', true
+    createNote('images/note.webp', 'I feel trapped within these walls, bound by an unseen force. There’s something here, and it won’t <strong>LET</strong> me go.', {bottom: '58%', left: '15%'}, 'note_3', true
     );
 };
 
@@ -445,6 +453,10 @@ function loadDiningRoomScene() {
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Dining room';
 
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'One note & one key';
+    numberOfItemsText.classList.add('number_of_items_text');
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Entrance hall';
     leftButton.onclick = loadEntranceHallScene;
@@ -455,7 +467,7 @@ function loadDiningRoomScene() {
     rightButton.onclick = loadKitchenScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(diningRoomScene, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(diningRoomScene, sceneTitle, numberOfItemsText,leftButton, rightButton);
 
     createNote('images/note.webp', 'At the last ball, they all marveled at my beauty. None of them know what I’ve done, what I’ve given up to maintain this facade. They wouldn’t admire me if they knew the cost. Still, appearances must be kept, and the ritual must continue.', {top: '10%', right: '30%' }, 'note_4'
     );
@@ -476,6 +488,10 @@ function loadStaircaseLandingScene() {
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Staircase landing';
 
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'Two notes';
+    numberOfItemsText.classList.add('number_of_items_text');
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Library';
     leftButton.onclick = loadLibraryScene;
@@ -486,9 +502,12 @@ function loadStaircaseLandingScene() {
     rightButton.onclick = loadMasterBedroomScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(staircaseLandingScene, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(staircaseLandingScene, sceneTitle, numberOfItemsText,leftButton, rightButton);
 
     createNote('images/note.webp', 'Those who seek the truth shall see their own face disappear.', {top: '30%', left: '27%'}, 'note_5'
+    );
+
+    createNote('images/note.webp', 'No matter where I turn, she finds me. Her gaze is a constant, as if she doesn’t want me to <strong>VANISH</strong>.', {top: '57%', right: '28%'}, 'note_6', true
     );
 
 }
@@ -506,6 +525,10 @@ function loadKitchenScene() {
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Kitchen';
 
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'Two notes';
+    numberOfItemsText.classList.add('number_of_items_text');
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Dining room';
     leftButton.onclick = loadDiningRoomScene;
@@ -516,12 +539,12 @@ function loadKitchenScene() {
     rightButton.onclick = loadLivingRoomScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(kitchenScene, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(kitchenScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
-    createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }, 'note_6'
+    createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }, 'note_7'
     );
 
-    createNote('images/note.webp', 'There’s no comfort here, no warmth. I long to <strong>escape</strong>, to find a place where I can rest..', {bottom: '44%', left: '17%'}, 'note_7', true
+    createNote('images/note.webp', 'There’s no comfort here, no warmth. I long to <strong>ESCAPE</strong>, to find a place where I can rest..', {bottom: '44%', left: '17%'}, 'note_8', true
     );
 }
 
@@ -537,6 +560,10 @@ function loadLivingRoomScene() {
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Living room';
 
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'Two notes';
+    numberOfItemsText.classList.add('number_of_items_text');
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Kitchen';
     leftButton.onclick = loadKitchenScene
@@ -547,12 +574,12 @@ function loadLivingRoomScene() {
     rightButton.onclick = loadStudyScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(livingRoomScene, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(livingRoomScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
-    createNote('images/note.webp', 'I can’t stay here any longer.<br><br> The whispers at night, the shadows that move when no one else should be here—this house is a prison. Eleanor has changed; her eyes, once full of warmth, are now cold as stone. She speaks to herself, murmuring secrets about a life everlasting. She’s trapped herself in something, and I fear she means to do the same to anyone left here. This place is no longer a home; it’s a tomb waiting to seal us in.', {bottom: '30%', left: '45%' }, 'note_8'
+    createNote('images/note.webp', 'I can’t stay here any longer.<br><br> The whispers at night, the shadows that move when no one else should be here—this house is a prison. Eleanor has changed; her eyes, once full of warmth, are now cold as stone. She speaks to herself, murmuring secrets about a life everlasting. She’s trapped herself in something, and I fear she means to do the same to anyone left here. This place is no longer a home; it’s a tomb waiting to seal us in.', {bottom: '30%', left: '45%' }, 'note_9'
     );
 
-    createNote('images/note.webp', 'Eleanor was different from the others; she never wanted to be like them. She wanted to be more, something beyond human. Her eyes could burn through you, as if she could see right through your very mind', {top: '27%', right: '16%' }, 'note_9', false
+    createNote('images/note.webp', 'Eleanor was different from the others; she never wanted to be like them. She wanted to be more, something beyond human. Her eyes could burn through you, as if she could see right through your very mind', {top: '27%', right: '16%' }, 'note_10'
     );
 }
 
@@ -567,6 +594,10 @@ function loadMasterBedroomScene() {
 
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Master bedroom';
+
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'Two notes';
+    numberOfItemsText.classList.add('number_of_items_text');
 
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Staircase landing'
@@ -583,12 +614,12 @@ function loadMasterBedroomScene() {
     thirdButton.onclick = loadBasementScene;
     thirdButton.classList.add('third_button');
 
-    sceneContainer.append(masterBedroomScene, sceneTitle, leftButton, rightButton, thirdButton);
+    sceneContainer.append(masterBedroomScene, sceneTitle, numberOfItemsText, leftButton, rightButton, thirdButton);
 
-    createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }, 'note_10'
+    createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }, 'note_11'
     );
 
-    createNote('images/note.webp', 'She watches from every shadow. The house is alive with her <strong>anger</strong>.', {bottom: '15%', right: '38%' }, 'note_11', true
+    createNote('images/note.webp', 'She watches from every shadow. The house is alive with her <strong>ANGER</strong>.', {bottom: '15%', right: '38%' }, 'note_12', true
     );
 
 }
@@ -605,6 +636,10 @@ function loadStudyScene() {
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Study';
 
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'Two notes';
+    numberOfItemsText.classList.add('number_of_items_text');
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Living room';
     leftButton.onclick = loadLivingRoomScene;
@@ -615,12 +650,12 @@ function loadStudyScene() {
     rightButton.onclick = loadBathroomScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(studyScene, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(studyScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
-    createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '36%', right: '45%' }, 'note_12'
+    createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '36%', right: '45%' }, 'note_13'
     );
 
-    createNote('images/note.webp', 'In every room, I hear whispers, echoes of those who came before. I need to <strong>end</strong> this cycle, break free from this place.”', {bottom: '55%', left: '23%' }, 'note_13', true
+    createNote('images/note.webp', 'In every room, I hear whispers, echoes of those who came before. I need to <strong>END</strong> this cycle, break free from this place.”', {bottom: '55%', left: '23%' }, 'note_14', true
     );
 
 }
@@ -637,6 +672,10 @@ function loadBathroomScene() {
     const sceneTitle = document.createElement('h1');
     sceneTitle.textContent = 'Bathroom';
 
+    const numberOfItemsText = document.createElement('p');
+    numberOfItemsText.textContent = 'One note & one key';
+    numberOfItemsText.classList.add('number_of_items_text');
+
     const leftButton = document.createElement('button');
     leftButton.textContent = 'Master Bedroom';
     leftButton.onclick = loadMasterBedroomScene;
@@ -647,7 +686,7 @@ function loadBathroomScene() {
     rightButton.onclick = loadStudyScene;
     rightButton.classList.add('right_button');
 
-    sceneContainer.append(bathroomScene, sceneTitle, leftButton, rightButton);
+    sceneContainer.append(bathroomScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
     createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }, 'note_14'
     );
