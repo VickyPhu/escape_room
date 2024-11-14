@@ -7,7 +7,7 @@ const inventory = [];
 
 const gameData = {
     currentScene: 'startScene',
-    collectedItems: []
+    collectedItems: [],
     // unlockedScenes: ['staircaseLandingScene', 'basementScene']
 };
 
@@ -59,8 +59,15 @@ function loadScene(sceneName) {
 
 /** Converts the gameData to a JSON string and stores it in localStorage with key gameData */
 function saveGameData() {
-    localStorage.setItem('gameData', JSON.stringify(gameData));
-}
+    const gameDataToSave = { 
+        currentScene: gameData.currentScene,
+        collectedItems: gameData.collectedItems
+    // updateInventoryInLocalStorage();
+    };
+
+    localStorage.setItem('gameData', JSON.stringify(gameDataToSave));
+}    
+
 /** Saves gameData when player moves to a new scene */
 function changeScene(newScene) {
     gameData.currentScene = newScene;
@@ -69,28 +76,50 @@ function changeScene(newScene) {
 }
 
 /** Saves the gameData when a new item is picked up or change of scenes */
-// function collectItem(item) {
-//     if (!gameData.collectedItems.includes(item)) {
-//         gameData.collectedItems.push(item);
-//         saveGameData();
-//     }
-// }
+function collectItem(item) {
+    const alreadyExists = gameData.collectedItems.some(existingItem => existingItem.id === item.id);
+    if (!alreadyExists) {
+        gameData.collectedItems.push(item);
+        saveGameData();  // Save the updated game data (inventory and current scene)
+    }
+}
 /** Retrieves the stored data in localStorage and parse it back from JSON string to the object gameData */
 function loadGameData() {
     const savedData = localStorage.getItem('gameData');
     if (savedData) {
         const parsedData = JSON.parse(savedData);
         gameData.currentScene = parsedData.currentScene;
-        // gameData.collectedItems = parsedData.collectedItems;
-        // gameData.unlockedScenes = parseData.unlockedScenes;
+        gameData.collectedItems = parsedData.collectedItems;
+    } else {
+        // Set default scene and empty inventory if no saved data
+        gameData.currentScene = 'startScene';
+        gameData.collectedItems = [];
+    }
+    loadScene(gameData.currentScene);
+    updateInventoryDisplay();  // Update inventory display based on collected items
+}
+
+/** Loads the inventory from local storage */
+function loadInventoryFromLocalStorage() {
+    const storedInventory = localStorage.getItem('inventory');
+    if (storedInventory) {
+        const parsedInventory = JSON.parse(storedInventory);
+        inventory.length = 0; // Clear the inventory
+        inventory.push(...parsedInventory); // Add stored items
+        updateInventoryDisplay();
     }
 }
 
 /** When reloading page, checks for saved data in localStorage then loads current scene and any collected items */
 function initGame() {
-    loadGameData(); 
-    loadScene(gameData.currentScene); 
-    // loadCollectedItems(gameData.collectedItems);
+    loadInventoryFromLocalStorage();
+    const savedData = localStorage.getItem('gameData');
+    if (!savedData) {
+        loadStartScene();
+    } else {
+        loadGameData();
+        loadScene(gameData.currentScene);
+    }
 }
 
  /**
@@ -98,9 +127,14 @@ function initGame() {
  * @param {String} item 
  */
 function addItemToInventory(item) {
-    inventory.push(item);
-    console.log('Picked up item:', item);
-    updateInventoryDisplay();
+    const alreadyExists = inventory.some(existingItem => existingItem.id === item.id);
+    if (!alreadyExists) {
+        inventory.push(item);
+        gameData.collectedItems.push(item);
+        localStorage.setItem('inventory', JSON.stringify(inventory));
+        localStorage.setItem('gameData', JSON.stringify(gameData));
+        updateInventoryDisplay(); 
+    }
 }
 
 /** Updates the DOM for the inventory when a collectible item gets added, clickable note to read the text */
@@ -155,6 +189,8 @@ function updateInventoryDisplay() {
                             console.log('key is clicked, attempting to unlock room');
                             unlockRoomButton(lockedButton);
                             inventoryKey.remove();
+                            inventory = inventory.filter(i => i !== item);
+                            loadInventoryFromLocalStorage();
                         }
                     } else {
                         console.log('show message')
@@ -168,7 +204,11 @@ function updateInventoryDisplay() {
 };
 
 /** Creates the small note and the larger note for viewing and closing */
-function createNote(noteSrc, noteText, position, isCollectible = false) {
+function createNote(noteSrc, noteText, position, noteId, isCollectible = false) {
+    const alreadyCollected = gameData.collectedItems.some(item => item.id === noteId);
+    if (alreadyCollected) 
+        return;
+
     const note = document.createElement('img');
     note.src = noteSrc;
     note.classList.add('small_note');
@@ -203,9 +243,12 @@ function createNote(noteSrc, noteText, position, isCollectible = false) {
 
         if (isCollectible) {
             addItemToInventory({
-                 type: 'note', 
-                 src: noteSrc, 
-                 text: noteText});
+                type: 'note', 
+                src: noteSrc, 
+                text: noteText,
+                id: noteId
+            });
+            
             note.remove();
         }
     });
@@ -227,10 +270,10 @@ function createNote(noteSrc, noteText, position, isCollectible = false) {
 
 /** Creates a key that gets added to inventory on click and removed from scene */
 function createKey(keySrc, position, keyId) {
-    // if (hasKey(keyId)) {
-    //     console.log('Key is already collected:', keyId);
-    //     return;
-    // }
+    if (hasKey(keyId)) {
+        console.log('Key is already collected:', keyId);
+        return;
+    }
 
     const key = document.createElement('img');
     key.src = keySrc;
@@ -336,7 +379,7 @@ function loadEntranceHallScene() {
     rightButton.classList.add('right_button');
 
     createNote(
-        'images/note.webp', 'To whoever enters after me, I was foolish enough to believe I could find a way out…but the doors only open when the truth of Eleanor’s story is uncovered. <br><br>Look closely at what you find—each note has a purpose. There are whispers of a code to escape, something left behind by the ones who vanished before me. <br><br>Remember this: Eleanor’s ‘favorite four’ may hold the key. I’ve gathered that letters and fragments combine for freedom. But I must hurry… I hear footsteps, though no one should be here.', { top: '30%', left: '60%' }
+        'images/note.webp', 'To whoever enters after me, I was foolish enough to believe I could find a way out…but the doors only open when the truth of Eleanor’s story is uncovered. <br><br>Look closely at what you find—each note has a purpose. There are whispers of a code to escape, something left behind by the ones who vanished before me. <br><br>Remember this: Eleanor’s ‘favorite four’ may hold the key. I’ve gathered that letters and fragments combine for freedom. But I must hurry… I hear footsteps, though no one should be here.', { top: '30%', left: '60%' }, 'note_1'
     );
 
     sceneContainer.append(entranceHall, sceneTitle, leftButton, rightButton);
@@ -382,10 +425,10 @@ function loadLibraryScene() {
 
     sceneContainer.append(libraryScene, sceneTitle, leftButton, rightButton);
 
-    createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }
+    createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }, 'note_2'
     );
 
-    createNote('images/note.webp', 'I feel trapped within these walls, bound by an unseen force. There’s something here, and it won’t <strong>let</strong> me go.', {bottom: '58%', left: '15%'}, true
+    createNote('images/note.webp', 'I feel trapped within these walls, bound by an unseen force. There’s something here, and it won’t <strong>let</strong> me go.', {bottom: '58%', left: '15%'}, 'note_3', true
     );
 };
 
@@ -414,10 +457,10 @@ function loadDiningRoomScene() {
 
     sceneContainer.append(diningRoomScene, sceneTitle, leftButton, rightButton);
 
-    createNote('images/note.webp', 'At the last ball, they all marveled at my beauty. None of them know what I’ve done, what I’ve given up to maintain this facade. They wouldn’t admire me if they knew the cost. Still, appearances must be kept, and the ritual must continue.', {top: '10%', right: '30%' }
+    createNote('images/note.webp', 'At the last ball, they all marveled at my beauty. None of them know what I’ve done, what I’ve given up to maintain this facade. They wouldn’t admire me if they knew the cost. Still, appearances must be kept, and the ritual must continue.', {top: '10%', right: '30%' }, 'note_4'
     );
 
-    createKey('images/gold_key.webp', { bottom: '35%', left: '23%'}, '1'
+    createKey('images/gold_key.webp', { bottom: '35%', left: '23%'}, 'key_1'
     );
 }
 
@@ -445,7 +488,7 @@ function loadStaircaseLandingScene() {
 
     sceneContainer.append(staircaseLandingScene, sceneTitle, leftButton, rightButton);
 
-    createNote('images/note.webp', 'Those who seek the truth shall see their own face disappear.', {top: '30%', left: '27%'}
+    createNote('images/note.webp', 'Those who seek the truth shall see their own face disappear.', {top: '30%', left: '27%'}, 'note_5'
     );
 
 }
@@ -475,10 +518,10 @@ function loadKitchenScene() {
 
     sceneContainer.append(kitchenScene, sceneTitle, leftButton, rightButton);
 
-    createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }
+    createNote('images/note.webp', 'The air here is thick, like it’s holding its breath. There are moments I swear I can feel her woven into the very walls. <br><br>Those symbols on the walls… they’re warnings, or maybe invitations. They tell of rituals older than memory, sacrifices made under moonlight. <br><br>The ones who served her knew the truth, and they knew the price she was willing to pay. Some tried to warn others, whispering tales of the restless woman who would stop at nothing. I can feel it here. She won’t ever leave. And neither will anyone who discovers her secret', {top: '35%', right: '15%' }, 'note_6'
     );
 
-    createNote('images/note.webp', 'There’s no comfort here, no warmth. I long to <strong>escape</strong>, to find a place where I can rest..', {bottom: '44%', left: '17%'}, true
+    createNote('images/note.webp', 'There’s no comfort here, no warmth. I long to <strong>escape</strong>, to find a place where I can rest..', {bottom: '44%', left: '17%'}, 'note_7', true
     );
 }
 
@@ -506,10 +549,10 @@ function loadLivingRoomScene() {
 
     sceneContainer.append(livingRoomScene, sceneTitle, leftButton, rightButton);
 
-    createNote('images/note.webp', 'I can’t stay here any longer.<br><br> The whispers at night, the shadows that move when no one else should be here—this house is a prison. Eleanor has changed; her eyes, once full of warmth, are now cold as stone. She speaks to herself, murmuring secrets about a life everlasting. She’s trapped herself in something, and I fear she means to do the same to anyone left here. This place is no longer a home; it’s a tomb waiting to seal us in.', {bottom: '30%', left: '45%' }
+    createNote('images/note.webp', 'I can’t stay here any longer.<br><br> The whispers at night, the shadows that move when no one else should be here—this house is a prison. Eleanor has changed; her eyes, once full of warmth, are now cold as stone. She speaks to herself, murmuring secrets about a life everlasting. She’s trapped herself in something, and I fear she means to do the same to anyone left here. This place is no longer a home; it’s a tomb waiting to seal us in.', {bottom: '30%', left: '45%' }, 'note_8'
     );
 
-    createNote('images/note.webp', 'Eleanor was different from the others; she never wanted to be like them. She wanted to be more, something beyond human. Her eyes could burn through you, as if she could see right through your very mind', {top: '27%', right: '16%' }
+    createNote('images/note.webp', 'Eleanor was different from the others; she never wanted to be like them. She wanted to be more, something beyond human. Her eyes could burn through you, as if she could see right through your very mind', {top: '27%', right: '16%' }, 'note_9', false
     );
 }
 
@@ -542,10 +585,10 @@ function loadMasterBedroomScene() {
 
     sceneContainer.append(masterBedroomScene, sceneTitle, leftButton, rightButton, thirdButton);
 
-    createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }
+    createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }, 'note_10'
     );
 
-    createNote('images/note.webp', 'She watches from every shadow. The house is alive with her <strong>anger</strong>.', {bottom: '15%', right: '38%' }, true
+    createNote('images/note.webp', 'She watches from every shadow. The house is alive with her <strong>anger</strong>.', {bottom: '15%', right: '38%' }, 'note_11', true
     );
 
 }
@@ -574,10 +617,10 @@ function loadStudyScene() {
 
     sceneContainer.append(studyScene, sceneTitle, leftButton, rightButton);
 
-    createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '36%', right: '45%' }
+    createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '36%', right: '45%' }, 'note_12'
     );
 
-    createNote('images/note.webp', 'In every room, I hear whispers, echoes of those who came before. I need to <strong>end</strong> this cycle, break free from this place.”', {bottom: '55%', left: '23%' }, true
+    createNote('images/note.webp', 'In every room, I hear whispers, echoes of those who came before. I need to <strong>end</strong> this cycle, break free from this place.”', {bottom: '55%', left: '23%' }, 'note_13', true
     );
 
 }
@@ -606,10 +649,10 @@ function loadBathroomScene() {
 
     sceneContainer.append(bathroomScene, sceneTitle, leftButton, rightButton);
 
-    createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }
+    createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }, 'note_14'
     );
 
-    createKey('images/gold_key.webp', { bottom: '43%', right: '37%'}, 'key2'
+    createKey('images/gold_key.webp', { bottom: '43%', right: '37%'}, 'key_2'
     );
 
 }
@@ -705,8 +748,15 @@ function loadWinningScene() {
     playAgainButton.classList.add('right_button');
     playAgainButton.onclick = () => {
         localStorage.clear();
+    
+        // The local storage didn't get cleared? Reset in-memory variables
+        inventory.length = 0;  // Clear the inventory array
+        gameData.currentScene = 'startScene';
+        gameData.collectedItems = [];  // Clear collected items
+
+        displayInventoryBox.innerHTML = '';
         loadStartScene();
-    }
+    };
 
     sceneContainer.append(winningScene, winningText, playAgainButton);
 
@@ -715,7 +765,7 @@ function loadWinningScene() {
 function loadGameOverScene() {
     sceneContainer.innerHTML = '';
     const gameOverScene = document.createElement('img');
-    gameOverScene.src = 'images/.webp'; //Add fitting image here
+    gameOverScene.src = 'images/woman_starting_ritual.webp'; //Add fitting image here
     gameOverScene.classList.add('background_image');
 
     const gameOverText = document.createElement('p');
@@ -727,8 +777,15 @@ function loadGameOverScene() {
     tryAgainButton.classList.add('right_button');
     tryAgainButton.onclick = () => {
         localStorage.clear();
+    
+        // The local storage didn't get cleared? Reset in-memory variables
+        inventory.length = 0;  // Clear the inventory array
+        gameData.currentScene = 'startScene';
+        gameData.collectedItems = [];  // Clear collected items
+
+        displayInventoryBox.innerHTML = '';
         loadStartScene();
-    }
+    };
 
     sceneContainer.append(gameOverScene, gameOverText, tryAgainButton);
 
