@@ -733,7 +733,7 @@ function loadStudyScene() {
     createNote('images/note.webp', 'I found it!<br><br>The perfect ritual to bind life to a place, to stave off decay. It’s simple enough, but it requires power. They may never return if they enter here, yet it matters not. I’ll do whatever it takes to preserve myself.', {bottom: '36%', right: '45%' }, 'note_13'
     );
 
-    createNote('images/note.webp', 'In every room, I hear whispers, echoes of those who came before. I need to <strong>END</strong> this cycle, break free from this place.”', {bottom: '55%', left: '23%' }, 'note_14', true
+    createNote('images/note.webp', 'In every room, I hear whispers, echoes of those who came before. I need to <strong>END</strong> this cycle, break free from this place.', {bottom: '55%', left: '23%' }, 'note_14', true
     );
 
 }
