@@ -1,24 +1,17 @@
 window.addEventListener('DOMContentLoaded', main);
 
 //Global variables
-let inventoryBox;
 /** Stores the inventory items - notes and keys */
-const inventory = [];
+let inventory = [];
 
 const gameData = {
     currentScene: 'startScene',
     collectedItems: [],
-    // unlockedScenes: ['staircaseLandingScene', 'basementScene']
 };
 
 function main() {
     loadStartScene();
-    // createInventoryBox();
 }
-/** Creates an inventory box next to the sceneContainer */
-// function createInventoryBox() {
-//     const displayInventoryBox = document.getElementById('displayInventoryBox');
-//   }
 
 function loadScene(sceneName) {
     switch (sceneName) {
@@ -61,6 +54,24 @@ function loadScene(sceneName) {
         case 'gameOverScene':
             loadGameOverScene();            
     }
+
+    // Retrieve the locked button state from localStorage
+    const lockedButtonState = localStorage.getItem('lockedButtonState');
+    const lockedButton = document.getElementById('lockedButton_room');
+
+    // If the button is unlocked, apply the unlocked state
+    if (lockedButton && lockedButtonState === 'unlocked') {
+        unlockRoomButton(lockedButton);
+    }
+
+    // Check if the key has been collected, and remove it from the scene
+    const keyId = 'key_1';
+    if (hasKey(keyId)) {
+        const keyElement = document.getElementById(keyId);
+        if (keyElement) {
+            keyElement.remove();
+        }
+    }
 }
 
 /** Converts the gameData to a JSON string and stores it in localStorage with key gameData */
@@ -68,7 +79,6 @@ function saveGameData() {
     const gameDataToSave = { 
         currentScene: gameData.currentScene,
         collectedItems: gameData.collectedItems
-    // updateInventoryInLocalStorage();
     };
 
     localStorage.setItem('gameData', JSON.stringify(gameDataToSave));
@@ -86,6 +96,7 @@ function collectItem(item) {
     const alreadyExists = gameData.collectedItems.some(existingItem => existingItem.id === item.id);
     if (!alreadyExists) {
         gameData.collectedItems.push(item);
+        inventory.push(item);
         saveGameData();  // Save the updated game data (inventory and current scene)
     }
 }
@@ -102,17 +113,17 @@ function loadGameData() {
         gameData.collectedItems = [];
     }
     loadScene(gameData.currentScene);
-    updateInventoryDisplay();  // Update inventory display based on collected items
+    updateInventoryDisplay(); 
 }
 
 /** Loads the inventory from local storage */
 function loadInventoryFromLocalStorage() {
-    const storedInventory = localStorage.getItem('inventory');
+    let storedInventory = (localStorage.getItem('inventory')) || [];
     if (storedInventory) {
         const parsedInventory = JSON.parse(storedInventory);
         inventory.length = 0; // Clear the inventory
         inventory.push(...parsedInventory); // Add stored items
-        updateInventoryDisplay();
+        updateInventoryDisplay(storedInventory);
     }
 }
 
@@ -139,6 +150,15 @@ function addItemToInventory(item) {
         gameData.collectedItems.push(item);
         localStorage.setItem('inventory', JSON.stringify(inventory));
         localStorage.setItem('gameData', JSON.stringify(gameData));
+
+        if (item.type === 'key') {
+            const collectedKeys = JSON.parse(localStorage.getItem('collectedKeys') || '[]');
+            if (!collectedKeys.includes(item.id)) {
+                collectedKeys.push(item.id);
+                localStorage.setItem('collectedKeys', JSON.stringify(collectedKeys));
+            }
+        }
+
         updateInventoryDisplay(); 
     }
 }
@@ -191,11 +211,19 @@ function updateInventoryDisplay() {
                     const lockedButton = document.getElementById('lockedButton_room');
 
                     if (lockedButton && lockedButton.disabled) {
-                        if (item.id === '1') {
+                        if (item.id === 'key_1') {
                             console.log('key is clicked, attempting to unlock room');
                             unlockRoomButton(lockedButton);
                             inventoryKey.remove();
-                            inventory = inventory.filter(i => i !== item);
+                            
+                            const itemIndex = inventory.indexOf(item);
+                            if (itemIndex !== -1) {
+                                inventory.splice(itemIndex, 1);
+                                console.log('Item removed from inventory', item);
+                            }
+
+                            localStorage.setItem('inventory', JSON.stringify(inventory));
+
                             loadInventoryFromLocalStorage();
                         }
                     } else {
@@ -276,6 +304,12 @@ function createNote(noteSrc, noteText, position, noteId, isCollectible = false) 
 
 /** Creates a key that gets added to inventory on click and removed from scene */
 function createKey(keySrc, position, keyId) {
+    const collectedKeys = JSON.parse(localStorage.getItem('collectedKeys') || '[]');
+    if (collectedKeys.includes(keyId)) {
+        console.log('Key is already collected', keyId);
+        return;
+    }
+
     if (hasKey(keyId)) {
         console.log('Key is already collected:', keyId);
         return;
@@ -303,11 +337,15 @@ function hasKey(keyId) {
 }
 
 function unlockRoomButton(lockedButton) {
+    // Unlock the button
     lockedButton.disabled = false;
     lockedButton.classList.remove('locked_button');
     lockedButton.classList.add('right_button');
-    lockedButton.textContent = 'Staircase landing';
+    lockedButton.textContent = 'Staircase landing'; // Change button text
     lockedButton.onclick = loadStaircaseLandingScene;
+
+    // Save the unlocked state in localStorage
+    localStorage.setItem('lockedButtonState', 'unlocked');
 }
 
 function showMessage(textMessage) {
@@ -417,27 +455,18 @@ function loadLibraryScene() {
     leftButton.onclick = loadEntranceHallScene;
     leftButton.classList.add('left_button');
 
-    const rightButton = document.createElement('button');
-    rightButton.textContent = 'Staircase landing';
-    rightButton.onclick = loadStaircaseLandingScene;
-    rightButton.classList.add('right_button');
+    const lockedButton = document.createElement('button');
+    lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
+    lockedButton.classList.add('locked_button');
+    lockedButton.id = 'lockedButton_room'
+    lockedButton.disabled = true;
 
-    // const lockedButton = document.createElement('button');
-    // lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
-    // lockedButton.classList.add('locked_button');
-    // lockedButton.id = 'lockedButton_room'
-    // lockedButton.disabled = true;
+    const lockedButtonState = localStorage.getItem('lockedButtonState');
+    if (lockedButtonState === 'unlocked') {
+        unlockRoomButton(lockedButton);  // Unlock the button if it was unlocked before
+    }
 
-    // lockedButton.onclick = () => {
-    //     console.log('Locked button clicked');
-    //     if (hasKey('1')) {
-    //         unlockRoomButton(lockedButton);
-    //     } else {
-    //         showMessage('You need a key to unlock this room')
-    //     }
-    // };
-
-    sceneContainer.append(libraryScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
+    sceneContainer.append(libraryScene, sceneTitle, numberOfItemsText, leftButton, lockedButton);
 
     createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }, 'note_2'
     );
@@ -610,17 +639,23 @@ function loadMasterBedroomScene() {
     leftButton.onclick = loadStaircaseLandingScene;
     leftButton.classList.add('left_button');
 
-    const rightButton = document.createElement('button');
-    rightButton.textContent = 'Bathroom';
-    rightButton.onclick = loadBathroomScene;
-    rightButton.classList.add('right_button');
+    const lockedButton = document.createElement('button');
+    lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
+    lockedButton.classList.add('locked_button');
+    lockedButton.id = 'lockedButton_room'
+    lockedButton.disabled = true;
+
+    const lockedButtonState = localStorage.getItem('lockedButtonState');
+    if (lockedButtonState === 'unlocked') {
+        unlockRoomButton(lockedButton);  // Unlock the button if it was unlocked before
+    }
 
     const thirdButton = document.createElement('button');
     thirdButton.textContent = 'Basement';
     thirdButton.onclick = loadBasementScene;
     thirdButton.classList.add('third_button');
 
-    sceneContainer.append(masterBedroomScene, sceneTitle, numberOfItemsText, leftButton, rightButton, thirdButton);
+    sceneContainer.append(masterBedroomScene, sceneTitle, numberOfItemsText, leftButton, lockedButton, thirdButton);
 
     createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }, 'note_11'
     );
@@ -695,9 +730,6 @@ function loadBathroomScene() {
     sceneContainer.append(bathroomScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
     createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }, 'note_14'
-    );
-
-    createKey('images/gold_key.webp', { bottom: '43%', right: '37%'}, 'key_2'
     );
 
 }
