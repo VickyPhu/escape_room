@@ -708,7 +708,7 @@ function loadBathroomScene() {
     sceneTitle.textContent = 'Bathroom';
 
     const numberOfItemsText = document.createElement('p');
-    numberOfItemsText.textContent = 'One note & one key';
+    numberOfItemsText.textContent = 'Two notes';
     numberOfItemsText.classList.add('number_of_items_text');
 
     const leftButton = document.createElement('button');
@@ -724,6 +724,9 @@ function loadBathroomScene() {
     sceneContainer.append(bathroomScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
     createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }, 'note_15'
+    );
+
+    createNote('images/note.webp', 'Eleanor always loved secrets, especially the ones hidden in plain sight. Her favorite word was etched on the cover of her journal, and it wasn’t just a word—it was her mantra. She used to say, ‘If you look closely enough, the truth will reveal itself.', { bottom: '43%', right: '37%'},
     );
 
 }
