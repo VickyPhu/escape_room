@@ -340,9 +340,9 @@ function unlockRoomButton(lockedButton) {
     // Unlock the button
     lockedButton.disabled = false;
     lockedButton.classList.remove('locked_button');
-    lockedButton.classList.add('right_button');
-    lockedButton.textContent = 'Staircase landing'; // Change button text
-    lockedButton.onclick = loadStaircaseLandingScene;
+    lockedButton.classList.add('third_button');
+    lockedButton.textContent = 'Basement'; // Change button text
+    lockedButton.onclick = loadBasementScene;
 
     // Save the unlocked state in localStorage
     localStorage.setItem('lockedButtonState', 'unlocked');
@@ -455,18 +455,12 @@ function loadLibraryScene() {
     leftButton.onclick = loadEntranceHallScene;
     leftButton.classList.add('left_button');
 
-    const lockedButton = document.createElement('button');
-    lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
-    lockedButton.classList.add('locked_button');
-    lockedButton.id = 'lockedButton_room'
-    lockedButton.disabled = true;
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Staircase landing';
+    rightButton.onclick = loadStaircaseLandingScene;
+    rightButton.classList.add('right_button');
 
-    const lockedButtonState = localStorage.getItem('lockedButtonState');
-    if (lockedButtonState === 'unlocked') {
-        unlockRoomButton(lockedButton);  // Unlock the button if it was unlocked before
-    }
-
-    sceneContainer.append(libraryScene, sceneTitle, numberOfItemsText, leftButton, lockedButton);
+    sceneContainer.append(libraryScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
     createNote('images/note.webp', 'Today, I began another experiment. <br><br>Youth is slipping away, but I am certain I’m close to finding it. <br><br>The books here speak of ancient rites, powerful rituals.<br><br> If I’m right, the final ingredient is… well, that I’ll keep to myself. They wouldn’t understand my determination.', {bottom: '25%', right: '50%' }, 'note_2'
     );
@@ -635,12 +629,12 @@ function loadMasterBedroomScene() {
     numberOfItemsText.classList.add('number_of_items_text');
 
     const leftButton = document.createElement('button');
-    leftButton.textContent = 'Staircase landing'
-    leftButton.onclick = loadStaircaseLandingScene;
+    leftButton.textContent = 'Bathroom'
+    leftButton.onclick = loadBathroomScene;
     leftButton.classList.add('left_button');
 
     const lockedButton = document.createElement('button');
-    lockedButton.innerHTML = 'Staircase landing <i class="fa-solid fa-lock"></i>';
+    lockedButton.innerHTML = 'Basement <i class="fa-solid fa-lock"></i>';
     lockedButton.classList.add('locked_button');
     lockedButton.id = 'lockedButton_room'
     lockedButton.disabled = true;
@@ -650,12 +644,12 @@ function loadMasterBedroomScene() {
         unlockRoomButton(lockedButton);  // Unlock the button if it was unlocked before
     }
 
-    const thirdButton = document.createElement('button');
-    thirdButton.textContent = 'Basement';
-    thirdButton.onclick = loadBasementScene;
-    thirdButton.classList.add('third_button');
+    const rightButton = document.createElement('button');
+    rightButton.textContent = 'Staircase landing';
+    rightButton.onclick = loadStaircaseLandingScene;
+    rightButton.classList.add('right_button');
 
-    sceneContainer.append(masterBedroomScene, sceneTitle, numberOfItemsText, leftButton, lockedButton, thirdButton);
+    sceneContainer.append(masterBedroomScene, sceneTitle, numberOfItemsText, leftButton, lockedButton, rightButton);
 
     createNote('images/note.webp', 'Every time I look in the mirror, I see her. The one I sacrificed.<br><br>Her face is in mine, her voice lingers in these walls. They think I am Eleanor. They don’t know my real name, and soon, they won’t even remember her.<br><br>All I need is more time', {bottom: '38%', left: '30%' }, 'note_11'
     );
@@ -729,7 +723,7 @@ function loadBathroomScene() {
 
     sceneContainer.append(bathroomScene, sceneTitle, numberOfItemsText, leftButton, rightButton);
 
-    createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }, 'note_14'
+    createNote('images/note.webp', 'The elixir is wearing thin. Every day, a little more slips away. I’ve bound myself to this place, a cage of my own making.<br><br>Yet, I cannot leave. To do so would be to surrender everything I’ve worked for.<br><br>No, I must finish it—complete the ritual, restore what I’ve lost.', {bottom: '15%', left: '37%' }, 'note_15'
     );
 
 }
