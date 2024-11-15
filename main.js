@@ -333,16 +333,16 @@ function createNote(noteSrc, noteText, position, noteId, isCollectible = false) 
     
 }
 
-/** Creates a key that gets added to inventory on click and removed from scene */
+/**
+ * Creates a collectible key that will be added to the inventory and removed from scene
+ * @param {string} keySrc 
+ * @param {Object} position 
+ * @param {string} keyId 
+ * @returns 
+ */
 function createKey(keySrc, position, keyId) {
     const collectedKeys = JSON.parse(localStorage.getItem('collectedKeys') || '[]');
     if (collectedKeys.includes(keyId)) {
-        console.log('Key is already collected', keyId);
-        return;
-    }
-
-    if (hasKey(keyId)) {
-        console.log('Key is already collected:', keyId);
         return;
     }
 
@@ -354,19 +354,24 @@ function createKey(keySrc, position, keyId) {
 
     //The key gets added to the inventory on click
     key.onclick = () => {
-        console.log(`Key Clicked: ${keyId}`); //debugging
         addItemToInventory({ type: 'key', id: keyId, src: keySrc });
         key.remove();
     };
 
     sceneContainer.append(key);
 }
-
+/**
+ * Check if a specific is in the inventory
+ * @param {string} keyId 
+ * @returns {boolean}
+ */
 function hasKey(keyId) {
-    console.log(`Checking if we have key with id: ${keyId}`);
     return inventory.some(item => item.type === 'key' && item.id === keyId);
 }
-
+/**
+ * Unlocks a locked button and enables access to new scene
+ * @param {HTMLElement} lockedButton 
+ */
 function unlockRoomButton(lockedButton) {
     // Unlock the button
     lockedButton.disabled = false;
@@ -378,7 +383,10 @@ function unlockRoomButton(lockedButton) {
     // Save the unlocked state in localStorage
     localStorage.setItem('lockedButtonState', 'unlocked');
 }
-
+/**
+ * Displays a temporary message to the player, used for when player tries to use the key in the wrong 
+ * @param {string} textMessage 
+ */
 function showMessage(textMessage) {
     const messageBox = document.createElement('div');
     messageBox.classList.add('message_box');
@@ -391,7 +399,9 @@ function showMessage(textMessage) {
     }, 3000);
 }
 
-/** Creates the start / first scene to start playing */
+/**
+ * Loads starts scene, displaying game name, start button that leads to premise scene
+ */
 function loadStartScene() {
     sceneContainer.innerHTML = '';
     const startScene = document.createElement('img');
@@ -409,7 +419,9 @@ function loadStartScene() {
 
     sceneContainer.append(startScene, gameName, button);
 }
-/** Created the premise scene / intro to the game */
+/**
+ * Loads premise scene, introduction text to the game's story and next button leads to Entrance hall scene
+ */
 function loadPremiseScene() {
     gameData.currentScene = 'premiseScene';
     saveGameData();
@@ -430,7 +442,7 @@ function loadPremiseScene() {
 
     sceneContainer.append(premiseScene, premiseText, button);
 }
-/** Creates the Entrance hall scene(1), also using the function createNote */
+/** Loads the entrance hall scene with image, room name, note and two buttons to navigate between scenes */
 function loadEntranceHallScene() {
     gameData.currentScene = 'entranceHallScene';
     saveGameData();
@@ -464,7 +476,7 @@ function loadEntranceHallScene() {
     sceneContainer.append(entranceHall, sceneTitle, numberOfItemsText,leftButton, rightButton);
 
 }
-
+/** Loads library scene, image, room name, two notes, one collectible and two buttons to navigate between scenes */
 function loadLibraryScene() {
     gameData.currentScene = 'libraryScene';
     saveGameData();
@@ -500,7 +512,7 @@ function loadLibraryScene() {
     );
 };
 
-/** Creates the Dining room scene(3) with function createNote and createKey */
+/** Loads dining room scene, image, room name, one note and one collectible key, two buttons to navigate between scenes */
 function loadDiningRoomScene() {
     gameData.currentScene = 'diningRoomScene';
     saveGameData();
@@ -535,7 +547,7 @@ function loadDiningRoomScene() {
     createKey('images/gold_key.webp', { bottom: '35%', left: '23%'}, 'key_1'
     );
 }
-
+/** Loads staircase landing, image, room name, two notes - one collectible, two buttons to navigate between scenes */
 function loadStaircaseLandingScene() {
     gameData.currentScene = 'staircaseLandingScene';
     saveGameData();
@@ -572,7 +584,7 @@ function loadStaircaseLandingScene() {
 
 }
 
-/** Creates kitchen scene(4) with two notes, one collectible */
+/** Loads kitchen scene, image, room name, two notes - one collectible, two buttons to navigate between scenes */
 function loadKitchenScene() {
     gameData.currentScene = 'kitchenScene';
     saveGameData();
@@ -607,7 +619,7 @@ function loadKitchenScene() {
     createNote('images/note.webp', 'There’s no comfort here, no warmth. I long to <strong>ESCAPE</strong>, to find a place where I can rest..', {bottom: '44%', left: '17%'}, 'note_8', true
     );
 }
-
+/** Loads living room scene, image, room name, two notes, two buttons to navigate between scenes */
 function loadLivingRoomScene() {
     gameData.currentScene = 'livingRoomScene';
     saveGameData();
@@ -642,7 +654,7 @@ function loadLivingRoomScene() {
     createNote('images/note.webp', 'Eleanor was different from the others; she never wanted to be like them. She wanted to be more, something beyond human. Her eyes could burn through you, as if she could see right through your very mind', {top: '27%', right: '16%' }, 'note_10'
     );
 }
-
+/** Loads master bedroom scene, image, room name, two notes - one collectible, three buttons - one locked, gets unlocked with the key */
 function loadMasterBedroomScene() {
     gameData.currentScene = 'masterBedroomScene';
     saveGameData();
@@ -689,7 +701,7 @@ function loadMasterBedroomScene() {
     );
 
 }
-
+/** Loads study scene, image, room name, two notes - one collectible, two buttons to navigate between scenes */
 function loadStudyScene() {
     gameData.currentScene = 'studyScene';
     saveGameData();
@@ -725,7 +737,7 @@ function loadStudyScene() {
     );
 
 }
-
+/** Loads bathroom scene, image, room name, two notes, two buttons to navigate between scenes */
 function loadBathroomScene() {
     gameData.currentScene = 'bathroomScene';
     saveGameData();
@@ -761,7 +773,7 @@ function loadBathroomScene() {
     );
 
 }
-
+/** Load basement scene, image, room name, button that opens the password form, player gets three attempts and for every attempt there is a hint */
 function loadBasementScene() {
     gameData.currentScene = 'basementScene';
     saveGameData();
@@ -851,8 +863,7 @@ function loadBasementScene() {
         }
         sceneContainer.append(basementScene, sceneTitle, leftButton, passwordButton, passwordContainer);
     }
-
-
+/** Loads the winning scene, image, story conclusion, play again button that restart the game and clears the storage */
 function loadWinningScene() {
     gameData.currentScene = 'winningScene';
     saveGameData();
@@ -884,7 +895,7 @@ function loadWinningScene() {
     sceneContainer.append(winningScene, winningText, playAgainButton);
 
 }
-
+/** Loads game over scene, image, losing story conclusion, try again button that restarts the game and clears the storage */
 function loadGameOverScene() {
     gameData.currentScene = 'gameOverScene';
     saveGameData();
@@ -916,5 +927,3 @@ function loadGameOverScene() {
     sceneContainer.append(gameOverScene, gameOverText, tryAgainButton);
 
 }
-
-// window.onload = initGame;
