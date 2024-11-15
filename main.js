@@ -802,7 +802,7 @@ function loadBasementScene() {
                 if (attempts === 1) {
                     hintTextContent = 'Hint: The password consists of a five-letter word'
                 } else if (attempts === 2) {
-                    hintTextContent = 'Hint: The second and fourth letter is E. This is the last attempt';
+                    hintTextContent = 'Hint: The second and last letter is E. This is the last attempt';
                 } else {
                     loadGameOverScene();
                     localStorage.removeItem('attempts');
