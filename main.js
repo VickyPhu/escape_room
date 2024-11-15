@@ -1,18 +1,42 @@
-window.addEventListener('DOMContentLoaded', main);
+window.addEventListener('DOMContentLoaded', initGame);
 
 //Global variables
 /** Stores the inventory items - notes and keys */
 let inventory = [];
+/**
+ * @typedef {Object} gameData
+ * @property {string} currentScene
+ * @property {Array<string>} collectedItems
+ */
 
+/**
+ * Stores state of the game, including current scene and collected items
+ * @type {gameData}
+ */
 const gameData = {
     currentScene: 'startScene',
     collectedItems: [],
 };
 
-function main() {
-    loadStartScene();
+/** Initializes the game by loading saved data in localStorage then loads current scene and any collected items 
+* If no saved data is found, loads the start scene 
+*/
+function initGame() {
+    loadInventoryFromLocalStorage();
+    const savedData = localStorage.getItem('gameData');
+    if (!savedData) {
+        loadStartScene();
+    } else {
+        loadGameData();
+        loadScene(gameData.currentScene);
+    }
 }
 
+/**
+ * Loads a specific scene based on the given scene name
+ * Handles restoring locked button states (locked/unlocked) and removing the collected items from he scene
+ * @param {string} sceneName 
+ */
 function loadScene(sceneName) {
     switch (sceneName) {
         case 'premiseScene':
@@ -74,7 +98,7 @@ function loadScene(sceneName) {
     }
 }
 
-/** Converts the gameData to a JSON string and stores it in localStorage with key gameData */
+/** Converts the gameData (current scene and collected notes and keys) to a JSON string and stores it in localStorage */
 function saveGameData() {
     const gameDataToSave = { 
         currentScene: gameData.currentScene,
@@ -84,23 +108,32 @@ function saveGameData() {
     localStorage.setItem('gameData', JSON.stringify(gameDataToSave));
 }    
 
-/** Saves gameData when player moves to a new scene */
+/**
+ * Saves gameData when player moves to a new scene and loads the new scene
+ * @param {string} newScene 
+ */
 function changeScene(newScene) {
     gameData.currentScene = newScene;
     saveGameData();
     loadScene(newScene);
 }
 
-/** Saves the gameData when a new item is picked up or change of scenes */
+/**
+ * Saves the gameData when a new item is picked up and updates the game state
+ * If the item already exists, it will not be added again
+ * @param {Object} item 
+ */
 function collectItem(item) {
     const alreadyExists = gameData.collectedItems.some(existingItem => existingItem.id === item.id);
     if (!alreadyExists) {
         gameData.collectedItems.push(item);
         inventory.push(item);
-        saveGameData();  // Save the updated game data (inventory and current scene)
+        saveGameData();  // Saves the updated game data (inventory and current scene)
     }
 }
-/** Retrieves the stored data in localStorage and parse it back from JSON string to the object gameData */
+/** Retrieves the game data in localStorage and updates the game state by parse it back from JSON string to the object gameData 
+* If no data is found, initializes default values
+*/
 function loadGameData() {
     const savedData = localStorage.getItem('gameData');
     if (savedData) {
@@ -116,32 +149,33 @@ function loadGameData() {
     updateInventoryDisplay(); 
 }
 
-/** Loads the inventory from local storage */
+/** Loads the inventory from localStorage, parses it and updates the inventory display */
 function loadInventoryFromLocalStorage() {
-    let storedInventory = (localStorage.getItem('inventory')) || [];
+    const storedInventory = localStorage.getItem('inventory');
     if (storedInventory) {
-        const parsedInventory = JSON.parse(storedInventory);
-        inventory.length = 0; // Clear the inventory
-        inventory.push(...parsedInventory); // Add stored items
-        updateInventoryDisplay(storedInventory);
-    }
-}
-
-/** When reloading page, checks for saved data in localStorage then loads current scene and any collected items */
-function initGame() {
-    loadInventoryFromLocalStorage();
-    const savedData = localStorage.getItem('gameData');
-    if (!savedData) {
-        loadStartScene();
+        try {
+            const parsedInventory = JSON.parse(storedInventory);
+            inventory.length = 0; // Clear the inventory
+            inventory.push(...parsedInventory); // Add stored items
+            updateInventoryDisplay(parsedInventory);
+        } catch (error) {
+            console.error("Error parsing inventory from localStorage:", error);
+        }
     } else {
-        loadGameData();
-        loadScene(gameData.currentScene);
+        inventory.length = 0; // Initialize as an empty array if nothing is stored
+        updateInventoryDisplay(inventory);
     }
 }
 
  /**
- * Adds collectible notes and keys (items) to the end of the inventory
- * @param {String} item 
+ * Adds collectible notes and keys (items) to the end of the inventory if they don't already exist
+ * Updates both the inventory array and gameData.collectedItems and synchronizes with localStorage
+ * If item is a key, it will also be stored in collectedKeys array in localStorage
+ * Updates the inventory display after adding the item
+ * 
+ * @param {Object} item
+ * @param {String} item.id
+ * @param {string} item.type
  */
 function addItemToInventory(item) {
     const alreadyExists = inventory.some(existingItem => existingItem.id === item.id);
@@ -163,7 +197,7 @@ function addItemToInventory(item) {
     }
 }
 
-/** Updates the DOM for the inventory when a collectible item gets added, clickable note to read the text */
+/** Updates the DOM for the inventory when a collectible item (note or key) gets added, clickable note to read the text and key to open specific locked button */
 function updateInventoryDisplay() {
     const displayInventoryBox = document.getElementById('displayInventoryBox');
     displayInventoryBox.innerHTML = '';
@@ -237,7 +271,15 @@ function updateInventoryDisplay() {
         })
 };
 
-/** Creates the small note and the larger note for viewing and closing */
+/**
+ * Creates a note in scene, can be viewed and some are added to the inventory
+ * @param {string} noteSrc 
+ * @param {string} noteText 
+ * @param {Object} position 
+ * @param {string} noteId 
+ * @param {boolean} isCollectible 
+ * @returns 
+ */
 function createNote(noteSrc, noteText, position, noteId, isCollectible = false) {
     const alreadyCollected = gameData.collectedItems.some(item => item.id === noteId);
     if (alreadyCollected) 
@@ -289,17 +331,6 @@ function createNote(noteSrc, noteText, position, noteId, isCollectible = false) 
 
     sceneContainer.append(note, noteOverlay);
     
-//duplicated code as the one in displayUpdateInventory?
-    // if (isCollectible) {
-    //     const inventoryNote = document.createElement('img');
-    //     inventoryNote.src = noteSrc;
-    //     inventoryNote.classList.add('inventory_note');
-    //     inventoryNote.onclick = () => {
-    //         noteOverlay.style.display = 'flex';
-    //     }
-
-    //     return inventoryNote;
-    // }
 }
 
 /** Creates a key that gets added to inventory on click and removed from scene */
@@ -886,4 +917,4 @@ function loadGameOverScene() {
 
 }
 
-window.onload = initGame;
+// window.onload = initGame;
