@@ -6,6 +6,8 @@ Uppgiften går ut på att med hjälp av Javascript skapa en interaktiv upplevels
 ## Spelet: "Vanished in Silence"
 Vanished in Silence är ett interaktivt digitalt escape room där du tar rollen som en detektiv och försöker lösa mysteriet om Eleanor och de försvunna människorna som vågat besöka hennes herrgård. Medan du utforskar det hemsökta huset behöver du hitta lappar och nycklar som avslöjar mörka hemligheter om Eleanor. Varje lapp ger insikt i Eleanors liv men vissa är avgörande ledtrådar för att du ska kunna ta dig ut med livet i behåll. Men  var försiktig, missade ledtrådar och fel val kan vara din undergång. Kommer du att lösa mysteriet och bryta dig fri, eller kommer du att bli ännu en förlorad själ, fast i herrgårdens grepp? 
 
+OBS CSS behöver justeras för skärmstorlek större än 13 tum, vissa lappar och text kanske inte syns inom spelets ram.
+
 Klicka på länken för att komma till spelet: [Vanished in Silence](https://vickyphu.github.io/escape_room/)
 
 ## Planering av spelet
